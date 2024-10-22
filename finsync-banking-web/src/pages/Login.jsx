@@ -42,9 +42,9 @@ const Login = () => {
       className="h-screen p-4 w-full flex justify-center items-center relative"
       id="login_screen"
     >
-      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[300px] h-[380px] md:w-[500px] md:h-[500px] bg-blue-95 rounded-[100%] blur-[90px]"></div>
+      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[300px] h-[380px] md:w-[500px] md:h-[500px] rounded-[100%] blur-[90px]"></div>
 
-      <div className="form-container bg-zinc-800 backdrop-blur-sm shadow-[0px_0px_10px] shadow-gray-500 bg-opacity-20 w-full max-w-[350px] h-[500px] px-2 py-4 sm:px-2 sm:py-10 rounded-xl flex flex-col items-center justify-center border-2 border-gray-500">
+      <div className="form-container bg-zinc-700 backdrop-blur-sm shadow-[0px_0px_10px] shadow-zinc-200 bg-opacity-20 w-full max-w-[350px] h-[500px] px-2 py-4 sm:px-2 sm:py-10 rounded-xl flex flex-col items-center justify-center border-2 border-zinc-700">
         <h1 className="text-3xl md:text-4xl font-normal mb-2 md:mb-5 ">
           Lo<span className="text-blue-500">gi</span>n
         </h1>
