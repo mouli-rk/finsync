@@ -36,10 +36,13 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen p-4 w-full flex justify-center items-center relative">
-      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[300px] h-[380px] md:w-[500px] md:h-[500px] bg-blue-950 rounded-[100%] blur-[90px]"></div>
+    <div
+      className="h-screen p-4 w-full flex justify-center items-center relative"
+      id="login_screen"
+    >
+      <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[300px] h-[380px] md:w-[500px] md:h-[500px] bg-blue-95 rounded-[100%] blur-[90px]"></div>
 
-      <div className="form-container bg-zinc-700 backdrop-blur-md bg-opacity-30 w-full max-w-[450px] px-2 py-4 sm:px-10 sm:py-10 rounded-xl flex flex-col items-center">
+      <div className="form-container bg-zinc-800 backdrop-blur-sm shadow-[0px_0px_10px] shadow-gray-500 bg-opacity-20 w-full max-w-[350px] h-[500px] px-2 py-4 sm:px-2 sm:py-10 rounded-xl flex flex-col items-center justify-center border-2 border-gray-500">
         <h1 className="text-3xl md:text-4xl font-normal mb-2 md:mb-5 ">
           Lo<span className="text-blue-500">gi</span>n
         </h1>
@@ -50,7 +53,7 @@ const Login = () => {
           className="p-3 md:p-5 w-full flex flex-col gap-5"
           onSubmit={(e) => handleSubmit(e)}
         >
-          <div className="w-full relative">
+          {/* <div className="w-full relative">
             <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-blue-500">
               <FaClipboardUser />
             </span>
@@ -73,7 +76,7 @@ const Login = () => {
                 Customer
               </option>
             </select>
-          </div>
+          </div> */}
 
           <div className="w-full relative">
             <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-blue-500">
@@ -84,7 +87,7 @@ const Login = () => {
               name="username"
               placeholder="User name"
               id="username"
-              className="px-3 py-2 text-[18px] w-full bg-transparent outline-none border border-blue-500 bg-zinc-800 bg-opacity-25 rounded-md placeholder:text-gray-200"
+              className="px-3 py-2 text-[18px] w-full bg-transparent outline-none border-l-[3px] border-blue-500 bg-zinc-700 bg-opacity-25 rounded-md placeholder:text-gray-200"
               autoComplete="username"
               onChange={handleInputChange}
             />
@@ -102,7 +105,7 @@ const Login = () => {
               name="password"
               placeholder="Password"
               id="password"
-              className="px-3 py-2 text-[18px] w-full bg-transparent outline-none border border-blue-500 bg-zinc-800 bg-opacity-25 rounded-md placeholder:text-gray-200"
+              className="px-3 py-2 text-[18px] w-full bg-transparent outline-none border-l-[3px] border-blue-500 bg-zinc-700 bg-opacity-25 rounded-md placeholder:text-gray-200"
               autoComplete="current-password"
               onChange={handleInputChange}
             />
@@ -124,11 +127,19 @@ const Login = () => {
             Login
           </button>
 
-          {/* <NavLink to="/register" className={`text-md md:text-lg`}>
-            <button type="submit" className="rounded-md outline-none w-full">
-              Do not have <span className="text-blue-400">Account?</span>
+          <NavLink to="/register" className={`text-md md:text-lg w-full`}>
+            <button
+              type="submit"
+              className="p-1 pb-2 bg-gray-200 text-black text-lg rounded-md outline-none w-full flex items-center justify-center gap-5"
+            >
+              {/* Do not have <span className="text-blue-400">Account?</span> */}
+              <img
+                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4="
+                alt="Google-logo"
+              />
+              Login With Gmail
             </button>
-          </NavLink> */}
+          </NavLink>
         </form>
       </div>
     </div>

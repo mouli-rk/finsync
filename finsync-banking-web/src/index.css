@@ -20,3 +20,7 @@
     scale: 1;
   }
 }
+
+#login_screen{
+  background-image: url('./assets/Full_Blurred_Black.png');
+}
