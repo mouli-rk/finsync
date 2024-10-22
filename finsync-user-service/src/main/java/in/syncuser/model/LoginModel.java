@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginModel {
-	private String userName;
+	private String username;
 	private String password;
 	private String jwtToken;
 	private String message;
