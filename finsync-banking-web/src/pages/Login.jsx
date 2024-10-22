@@ -5,9 +5,11 @@ import { FaUser } from "react-icons/fa";
 import { FaClipboardUser } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
+
 
 const initialState = {
-  userrole: "",
+  //userrole: "",
   username: "",
   password: "",
 };
@@ -20,10 +22,10 @@ const Login = () => {
     e.preventDefault();
     if (
       loginDetails.password &&
-      loginDetails.username &&
-      loginDetails.userrole
+      loginDetails.username
+      //loginDetails.userrole
     ) {
-      console.log(loginDetails);
+      axios.post(`http://localhost:9001/api/auth/authenticate`, loginDetails).then((data)=>{console.log(data);})
       toast.success("successfully loggedin")
     } else {
       toast.error("please enter input");
