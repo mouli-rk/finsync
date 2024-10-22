@@ -43,12 +43,12 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public CommonModel authenticateUser(LoginModel login, HttpServletResponse response) {
 		Authentication authentication = authManager
-				.authenticate(new UsernamePasswordAuthenticationToken(login.getUserName(), login.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 		CommonModel model = new CommonModel();
 		if (authentication.isAuthenticated()) {
-			String jwtToken = jwtUtil.generateAuthenticationToken(login.getUserName(), expirationTime);
+			String jwtToken = jwtUtil.generateAuthenticationToken(login.getUsername(), expirationTime);
 			if (jwtToken != null) {
-				User user = userRepository.findByUserName(login.getUserName());
+				User user = userRepository.findByUserName(login.getUsername());
 				model.setId(user.getId());
 				model.setFullName(user.getFullName());
 				model.setEmail(user.getEmail());

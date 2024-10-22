@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 		address = addressRepository.save(address);
 		User user = new User(userModel.getFirstName(), userModel.getLastName(), userModel.getGender(),
 				userModel.getFullName(), userModel.getEmail(), userModel.getPhoneNo(), userModel.getAlternativePhnNo(),
-				userModel.getUserName(), authService.passwordEncoder(userModel.getPassword()), address);
+				userModel.getUsername(), authService.passwordEncoder(userModel.getPassword()), address);
 		user = userRepository.save(user);
 		userModel.setUserId(user.getId());
 		userModel.setFullName(user.getFullName());
