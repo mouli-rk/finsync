@@ -31,7 +31,7 @@ public class User extends BaseEntity{
 	private String alternativePhnNo;
 	
 	@Column(unique = true, nullable = false)
-	private String userName;
+	private String username;
 	
 	private String password;
 	
@@ -39,7 +39,7 @@ public class User extends BaseEntity{
 	private Address address;
 
 	public User(String firstName, String lastName, String gender, String fullName, String email, String phoneNo,
-			String alternativePhnNo, String userName, String password,  Address address) {
+			String alternativePhnNo, String username, String password,  Address address) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -49,7 +49,7 @@ public class User extends BaseEntity{
 		this.phoneNo = phoneNo;
 		this.alternativePhnNo = alternativePhnNo;
 		this.address = address;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 	}
 	

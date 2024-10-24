@@ -8,7 +8,7 @@ public interface AuthService {
 
 	Boolean sendResetPassword(String email);
 
-	Boolean resetPassword(String email);
+	Boolean resetPassword(LoginModel login);
 
 	String passwordEncoder(String password);
 
