@@ -21,7 +21,8 @@ const authSlice = createSlice({
             state.isLoggedIn = action.payload 
         },
         SET_USER(state, action){
-            const{name, email, firstName, lastName, fullName, phoneNo} = action.payload
+            const { name, email, firstName, lastName, fullName, phoneNo } = action.payload
+            
         }
     }
 })

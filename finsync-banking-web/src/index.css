@@ -8,9 +8,9 @@
   font-family: "Open Sans";
 }
 
-.form-container {
+/* .form-container {
   animation: grow 0.5s linear;
-}
+} */
 
 @keyframes grow {
   0% {
@@ -30,9 +30,20 @@
   opacity: 1;
   width: 100%;
   height: 100%;
- background-image: url("./assets/Full_Blurred.png");
-  background-position: center;
+  background-image: url("./assets/login_bg1.jpg");
+  background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
-  filter:saturate(50%) brightness(80%) hue-rotate(30deg);
+  /* filter: saturate(50%) brightness(80%) hue-rotate(30deg); */
+}
+
+/* #login_screen{
+  background-image: url("./assets/login_bg6.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+} */
+
+.login_logo h1,span{
+  font-family: 'Nasalization';
 }
