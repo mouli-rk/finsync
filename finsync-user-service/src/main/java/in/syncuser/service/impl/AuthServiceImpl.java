@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
 		if (authentication.isAuthenticated()) {
 			String jwtToken = jwtUtil.generateAuthenticationToken(login.getUsername(), expirationTime);
 			if (jwtToken != null) {
-				User user = userRepository.findByUserName(login.getUsername());
+				User user = userRepository.findByUsername(login.getUsername());
 				model.setId(user.getId());
 				model.setFullName(user.getFullName());
 				model.setEmail(user.getEmail());
@@ -88,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
 	public Boolean secureAllPasswords() {
 		List<User> users = userRepository.findAll();
 		users.stream().forEach(user -> {
-			user.setUserName("fsync" + user.getFirstName().substring(0, 1) + user.getId());
+			user.setUsername("fsync" + user.getFirstName().substring(0, 1) + user.getId());
 			user.setCode("fsync@" + user.getFirstName() + user.getId());
 			user.setPassword(passwordEncoder("fsync@" + user.getFirstName() + user.getId())); // Hash the new password
 		});
@@ -97,23 +97,29 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public Boolean sendResetPassword(String email) {
-		User user = userRepository.findByEmail(email);
-		CommonModel model = new CommonModel();
-		model.setFullName(user.getFullName());
-		model.setEmail(user.getEmail());
-		EmailDetails mailParmas = emailSenderService.configureEmailParams(model, FynSyncConstants.SEND_RESET_SUBJECT);
-		return emailSenderService.sendEmailWithAttachment(mailParmas);
+	public Boolean sendResetPassword(LoginModel login) {
+		User user = userRepository.findByEmail(login.getUsername());
+		if(user != null) {
+			CommonModel model = new CommonModel();
+			model.setFullName(user.getFullName());
+			model.setEmail(user.getEmail());
+			EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
+					FynSyncConstants.SEND_RESET_SUBJECT);
+			return emailSenderService.sendEmailWithAttachment(mailParmas);
+		}
+		return false;
 	}
 
 	@Override
-	public Boolean resetPassword(String email) {
-		User user = userRepository.findByEmail(email);
-		CommonModel model = new CommonModel();
-		model.setFullName(user.getFullName());
-		model.setEmail(user.getEmail());
-		EmailDetails mailParmas = emailSenderService.configureEmailParams(model, FynSyncConstants.SEND_RESET_SUBJECT);
-		return emailSenderService.sendEmailWithAttachment(mailParmas);
+	public Boolean resetPassword(LoginModel login) {
+		User user = userRepository.findByUsername(login.getUsername());
+		user.setPassword(passwordEncoder.encode(login.getPassword()));
+		try {
+			userRepository.save(user);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

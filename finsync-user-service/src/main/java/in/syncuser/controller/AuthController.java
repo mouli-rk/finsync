@@ -29,13 +29,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/send/resetLink")
-	public Boolean sendResetPassword(@RequestParam("email") String email) {
-		return authService.sendResetPassword(email);
+	public Boolean sendResetPassword(@RequestBody LoginModel login) {
+		return authService.sendResetPassword(login);
 	}
 
-	@GetMapping("/reset")
-	public Boolean resetPassword(String email) {
-		return authService.sendResetPassword(email);
+	@PostMapping("/reset")
+	public Boolean resetPassword(@RequestBody LoginModel login) {
+		return authService.resetPassword(login);
 	}
 	@GetMapping("/secureAllPasswords")
 	public Boolean secureAllPasswords() {

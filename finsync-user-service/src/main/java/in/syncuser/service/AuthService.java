@@ -6,9 +6,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
 
-	Boolean sendResetPassword(String email);
+	Boolean sendResetPassword(LoginModel login);
 
-	Boolean resetPassword(String email);
+	Boolean resetPassword(LoginModel login);
 
 	String passwordEncoder(String password);
 
