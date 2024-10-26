@@ -97,13 +97,17 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public Boolean sendResetPassword(String email) {
-		User user = userRepository.findByEmail(email);
-		CommonModel model = new CommonModel();
-		model.setFullName(user.getFullName());
-		model.setEmail(user.getEmail());
-		EmailDetails mailParmas = emailSenderService.configureEmailParams(model, FynSyncConstants.SEND_RESET_SUBJECT);
-		return emailSenderService.sendEmailWithAttachment(mailParmas);
+	public Boolean sendResetPassword(LoginModel login) {
+		User user = userRepository.findByEmail(login.getUsername());
+		if(user != null) {
+			CommonModel model = new CommonModel();
+			model.setFullName(user.getFullName());
+			model.setEmail(user.getEmail());
+			EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
+					FynSyncConstants.SEND_RESET_SUBJECT);
+			return emailSenderService.sendEmailWithAttachment(mailParmas);
+		}
+		return false;
 	}
 
 	@Override

@@ -29,8 +29,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/send/resetLink")
-	public Boolean sendResetPassword(@RequestParam("email") String email) {
-		return authService.sendResetPassword(email);
+	public Boolean sendResetPassword(@RequestBody LoginModel login) {
+		return authService.sendResetPassword(login);
 	}
 
 	@PostMapping("/reset")
