@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import loginImg from "../assets/login3.png";
 import plantImg from "../assets/plant1.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   //userrole: "",
@@ -18,6 +19,8 @@ const initialState = {
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginDetails, setLoginDetails] = useState(initialState);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,6 +35,7 @@ const Login = () => {
           console.log(data);
         });
       toast.success("successfully loggedin");
+      navigate("/dashboard");
     } else {
       toast.error("please enter input");
     }

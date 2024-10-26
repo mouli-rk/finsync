@@ -8,6 +8,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ForgotPassword, Home, Login, Register } from "./pages";
 import Reset from "./pages/Reset";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       <Route path="register" element={<Register />} />
       <Route path="forgotpassword" element={<ForgotPassword />} />
       <Route path="reset" element={<Reset />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Route>
   )
 );
@@ -28,7 +30,7 @@ function App() {
 
       <div className="w-[200px] h-[100px] lg:w-[300px] lg:h-[200px] bg-blue-800 absolute rounded-[50%] top-0 left-0 blur-[100px] lg:blur-[200px] z-0"></div>
 
-      <ToastContainer theme="colored" transition={Bounce}/>
+      <ToastContainer theme="colored" transition={Bounce} />
 
       <RouterProvider router={router} />
     </div>
