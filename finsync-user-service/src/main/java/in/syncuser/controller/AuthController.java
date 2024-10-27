@@ -28,13 +28,13 @@ public class AuthController {
 		return authService.authenticateUser(login, response);	
 	}
 
-	@PostMapping("/send/resetLink")
-	public Boolean sendResetPassword(@RequestBody LoginModel login) {
+	@PostMapping("/resetLink")
+	public String sendResetPassword(@RequestBody LoginModel login) {
 		return authService.sendResetPassword(login);
 	}
 
 	@PostMapping("/reset")
-	public Boolean resetPassword(@RequestBody LoginModel login) {
+	public String resetPassword(@RequestBody LoginModel login) {
 		return authService.resetPassword(login);
 	}
 	@GetMapping("/secureAllPasswords")

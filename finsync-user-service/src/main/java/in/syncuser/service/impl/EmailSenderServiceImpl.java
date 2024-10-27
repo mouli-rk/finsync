@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import in.syncuser.config.JwtUtil;
-import in.syncuser.constants.FynSyncConstants;
+import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.model.CommonModel;
 import in.syncuser.model.EmailDetails;
 import in.syncuser.service.EmailSenderService;
@@ -37,12 +37,12 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	public EmailDetails configureEmailParams(CommonModel commonModel, String subject) {
 		EmailDetails mailParams = new EmailDetails();
 		switch (subject) {
-			case FynSyncConstants.SEND_RESET_SUBJECT: {
-				mailParams.setSubject(FynSyncConstants.SEND_RESET_SUBJECT);
+			case FinSyncConstants.SEND_RESET_SUBJECT: {
+				mailParams.setSubject(FinSyncConstants.SEND_RESET_SUBJECT);
 				mailParams.setMsgBody(configureResetPasswordMsgBody(commonModel));
 			}
-			case FynSyncConstants.LOGIN_ALERT: {
-				mailParams.setSubject(FynSyncConstants.LOGIN_ALERT);
+			case FinSyncConstants.LOGIN_ALERT: {
+				mailParams.setSubject(FinSyncConstants.LOGIN_ALERT);
 				mailParams.setMsgBody(configureLoginAlertMsgBody(commonModel));
 			}
 		}
@@ -123,8 +123,8 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	
 	
 	@Override
-	public String configureResetPasswordMsgBody(CommonModel commonModel) {
-	    String jwtToken = jwtUtil.generateAuthenticationToken(commonModel.getUsername(), 10);
+	public String configureResetPasswordMsgBody(CommonModel model) {
+	    String jwtToken = jwtUtil.generateAuthenticationToken(model.getUsername(), 10);
 	    String redirectUrl = "http://localhost:3000/api/reset/" + jwtToken;        
 	    
 	    String msgBody = "<!DOCTYPE html>\r\n"
@@ -170,7 +170,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	            + "        <div class=\"header\">\r\n"
 	            + "            <h2>Password Reset Request</h2>\r\n"
 	            + "        </div>\r\n"
-	            + "        <p>Dear " + commonModel.getFullName() + ",</p>\r\n"
+	            + "        <p>Dear " + model.getFullName() + ",</p>\r\n"
 	            + "        <p>We hope this message finds you well.</p>\r\n"
 	            + "        <p>We are writing to inform you that we have received a request to reset the password for your Finsync account. If you did not initiate this request, please ignore this email. Your account remains secure.</p>\r\n"
 	            + "        <p>To reset your password, please click the button below:</p>\r\n\n"

@@ -15,4 +15,6 @@ public class LoginModel {
 	private String password;
 	private String jwtToken;
 	private String message;
+	private String email;
+	private String phoneNo;
 }

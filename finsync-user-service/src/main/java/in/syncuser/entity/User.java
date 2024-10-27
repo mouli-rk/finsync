@@ -53,8 +53,14 @@ public class User extends BaseEntity{
 		this.password = password;
 	}
 	
+	public User(String username) {
+		super();
+		this.username = username;
+	}
+	
 	@PrePersist
 	private void generateFullName() {
 		this.fullName = this.firstName +" "+this.lastName;
 	}
+
 }
