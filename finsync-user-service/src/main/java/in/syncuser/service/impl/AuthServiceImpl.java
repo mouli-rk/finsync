@@ -7,7 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import in.syncuser.config.JwtUtil;
+import in.syncuser.config.JwtUtils;
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.entity.User;
 import in.syncuser.model.CommonModel;
@@ -26,17 +26,17 @@ public class AuthServiceImpl implements AuthService {
 	private final EmailSenderService emailSenderService;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final AuthenticationManager authManager;
-	private final JwtUtil jwtUtil;
+	private final JwtUtils jwtUtils;
 	private Integer expirationTime = 60;
 
 	public AuthServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService,
-			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, JwtUtil jwtUtil) {
+			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, JwtUtils jwtUtils) {
 		super();
 		this.userRepository = userRepository;
 		this.emailSenderService = emailSenderService;
 		this.passwordEncoder = passwordEncoder;
 		this.authManager = authManager;
-		this.jwtUtil = jwtUtil;
+		this.jwtUtils = jwtUtils;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 				.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 		CommonModel model = new CommonModel();
 		if (authentication.isAuthenticated()) {
-			String jwtToken = jwtUtil.generateAuthenticationToken(login.getUsername(), expirationTime);
+			String jwtToken = jwtUtils.generateJwtToken(login.getUsername(), expirationTime);
 			if (jwtToken != null) {
 				User user = userRepository.findByUsername(login.getUsername());
 				model.setId(user.getId());
@@ -114,9 +114,9 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public String resetPassword(LoginModel login) {
-		Boolean isTokenExpired = jwtUtil.isTokenExpired(login.getJwtToken());
+		Boolean isTokenExpired = jwtUtils.isTokenExpired(login.getJwtToken());
 		if (!isTokenExpired) {
-			String username = jwtUtil.extractUsername(login.getJwtToken());
+			String username = jwtUtils.getUsernameFromJwt(login.getJwtToken());
 			User user = userRepository.findByUsername(username);
 			if (user != null) {
 				user.setPassword(passwordEncoder.encode(login.getPassword()));
