@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.syncuser.config.JwtUtil;
+import in.syncuser.config.JwtUtils;
 import in.syncuser.model.CommonModel;
 import in.syncuser.model.LoginModel;
 import in.syncuser.service.AuthService;
@@ -28,13 +28,13 @@ public class AuthController {
 		return authService.authenticateUser(login, response);	
 	}
 
-	@PostMapping("/send/resetLink")
-	public Boolean sendResetPassword(@RequestBody LoginModel login) {
+	@PostMapping("/resetLink")
+	public String sendResetPassword(@RequestBody LoginModel login) {
 		return authService.sendResetPassword(login);
 	}
 
 	@PostMapping("/reset")
-	public Boolean resetPassword(@RequestBody LoginModel login) {
+	public String resetPassword(@RequestBody LoginModel login) {
 		return authService.resetPassword(login);
 	}
 	@GetMapping("/secureAllPasswords")
@@ -44,6 +44,6 @@ public class AuthController {
 	
 	@GetMapping("/getJWTGeneratedToken")
 	public String getJWTGeneratedToken() {
-		return JwtUtil.getJwtToken();
+		return JwtUtils.getJwtToken();
 	}
 }

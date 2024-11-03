@@ -1,6 +1,5 @@
 package in.syncuser.service.impl;
 
-
 import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import in.syncuser.config.JwtUtil;
-import in.syncuser.constants.FynSyncConstants;
+import in.syncuser.config.JwtUtils;
+import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.entity.User;
 import in.syncuser.model.CommonModel;
 import in.syncuser.model.EmailDetails;
@@ -27,17 +26,17 @@ public class AuthServiceImpl implements AuthService {
 	private final EmailSenderService emailSenderService;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final AuthenticationManager authManager;
-	private final JwtUtil jwtUtil;
+	private final JwtUtils jwtUtils;
 	private Integer expirationTime = 60;
-	
+
 	public AuthServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService,
-			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, JwtUtil jwtUtil) {
+			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, JwtUtils jwtUtils) {
 		super();
 		this.userRepository = userRepository;
 		this.emailSenderService = emailSenderService;
 		this.passwordEncoder = passwordEncoder;
 		this.authManager = authManager;
-		this.jwtUtil = jwtUtil;
+		this.jwtUtils = jwtUtils;
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 				.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 		CommonModel model = new CommonModel();
 		if (authentication.isAuthenticated()) {
-			String jwtToken = jwtUtil.generateAuthenticationToken(login.getUsername(), expirationTime);
+			String jwtToken = jwtUtils.generateJwtToken(login.getUsername(), expirationTime);
 			if (jwtToken != null) {
 				User user = userRepository.findByUsername(login.getUsername());
 				model.setId(user.getId());
@@ -55,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
 				model.setPhoneNo(user.getPhoneNo());
 				model.setFirstName(user.getFirstName());
 				model.setLastName(user.getLastName());
-				model.setMessage(FynSyncConstants.SUCCESS);
+				model.setMessage(FinSyncConstants.SUCCESS);
 				model.setJwtToken(jwtToken);
 				// EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
 				// FynSyncConstants.LOGIN_ALERT);
@@ -63,27 +62,27 @@ public class AuthServiceImpl implements AuthService {
 				configureTokenInCookie(jwtToken, response);
 				return model;
 			}
-			model.setMessage(FynSyncConstants.JWT_NOT_AVAILABLE);
+			model.setMessage(FinSyncConstants.JWT_TOKEN_NOT_AVAILABLE);
 			return model;
 		}
-		model.setMessage(FynSyncConstants.AUTHENTICATION_FAILED);
+		model.setMessage(FinSyncConstants.AUTHENTICATION_FAILED);
 		return model;
 	}
-	
+
 	public void configureTokenInCookie(String jwtToken, HttpServletResponse response) {
 		Cookie cookie = new Cookie("authToken", jwtToken);
-        cookie.setHttpOnly(true); 
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(9 * 60 * 60);
-        response.addCookie(cookie);
+		cookie.setHttpOnly(true);
+		cookie.setSecure(true);
+		cookie.setPath("/");
+		cookie.setMaxAge(9 * 60 * 60);
+		response.addCookie(cookie);
 	}
 
 	@Override
 	public String passwordEncoder(String password) {
 		return passwordEncoder.encode(password);
 	}
-	
+
 	@Override
 	public Boolean secureAllPasswords() {
 		List<User> users = userRepository.findAll();
@@ -97,29 +96,35 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public Boolean sendResetPassword(LoginModel login) {
-		User user = userRepository.findByEmail(login.getUsername());
-		if(user != null) {
+	public String sendResetPassword(LoginModel login) {
+		User user = login.getUsername() != null ? userRepository.findByUsername(login.getUsername())
+				: userRepository.findByEmail(login.getEmail());
+		if (user != null) {
 			CommonModel model = new CommonModel();
 			model.setFullName(user.getFullName());
+			model.setUsername(user.getUsername());
 			model.setEmail(user.getEmail());
 			EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
-					FynSyncConstants.SEND_RESET_SUBJECT);
-			return emailSenderService.sendEmailWithAttachment(mailParmas);
+					FinSyncConstants.SEND_RESET_SUBJECT);
+			Boolean response = emailSenderService.sendEmailWithAttachment(mailParmas);
+			return response ? FinSyncConstants.SUCCESS : FinSyncConstants.EMAIL_SEND_FAILURE;
 		}
-		return false;
+		return FinSyncConstants.USER_NOT_FOUND;
 	}
 
 	@Override
-	public Boolean resetPassword(LoginModel login) {
-		User user = userRepository.findByUsername(login.getUsername());
-		user.setPassword(passwordEncoder.encode(login.getPassword()));
-		try {
-			userRepository.save(user);
-			return true;
-		} catch (Exception e) {
-			return false;
+	public String resetPassword(LoginModel login) {
+		Boolean isTokenExpired = jwtUtils.isTokenExpired(login.getJwtToken());
+		if (!isTokenExpired) {
+			String username = jwtUtils.getUsernameFromJwt(login.getJwtToken());
+			User user = userRepository.findByUsername(username);
+			if (user != null) {
+				user.setPassword(passwordEncoder.encode(login.getPassword()));
+				userRepository.save(user);
+				return FinSyncConstants.SUCCESS;
+			}
+			return FinSyncConstants.USER_NOT_FOUND;
 		}
+		return FinSyncConstants.TOKEN_EXPIRED;
 	}
-
 }

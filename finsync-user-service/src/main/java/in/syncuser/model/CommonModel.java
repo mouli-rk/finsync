@@ -23,8 +23,6 @@ public class CommonModel extends LoginModel{
 	private String lastName;
 	private String gender;
 	private String fullName;
-	private String email;
-	private String phoneNo;
 	private String alternativePhnNo;
 	private String prefix;
 	private String suffix;
