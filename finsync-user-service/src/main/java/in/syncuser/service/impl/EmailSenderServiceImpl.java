@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import in.syncuser.config.JwtUtil;
+import in.syncuser.config.JwtUtils;
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.model.CommonModel;
 import in.syncuser.model.EmailDetails;
@@ -22,9 +22,9 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
 	private final JavaMailSender javaMailSender;
 	
-	private final JwtUtil jwtUtil;
+	private final JwtUtils jwtUtil;
 	
-	public EmailSenderServiceImpl(JavaMailSender javaMailSender, JwtUtil jwtUtil) {
+	public EmailSenderServiceImpl(JavaMailSender javaMailSender, JwtUtils jwtUtil) {
 		super();
 		this.javaMailSender = javaMailSender;
 		this.jwtUtil = jwtUtil;
@@ -124,7 +124,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	
 	@Override
 	public String configureResetPasswordMsgBody(CommonModel model) {
-	    String jwtToken = jwtUtil.generateAuthenticationToken(model.getUsername(), 10);
+	    String jwtToken = jwtUtil.generateJwtToken(model.getUsername(), 10);
 	    String redirectUrl = "http://localhost:3000/api/reset/" + jwtToken;        
 	    
 	    String msgBody = "<!DOCTYPE html>\r\n"
