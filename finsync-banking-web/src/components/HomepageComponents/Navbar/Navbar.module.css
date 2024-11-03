@@ -1,0 +1,8 @@
+.active{
+ @apply bg-teal-900 
+}
+
+.link{
+ @apply px-3 py-2 lg:px-5 lg:py-1 rounded-full lg:text-[16px] transition-all duration-300 flex items-center gap-2 border-2 border-transparent;
+ /* font-family: "Nasalization"; */
+}
