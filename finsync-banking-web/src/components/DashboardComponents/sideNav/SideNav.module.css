@@ -9,9 +9,13 @@
 }
 
 .active{
- @apply bg-teal-800 bg-opacity-50;
+ @apply bg-zinc-950 bg-opacity-60;
 }
 
 .link{
- @apply px-4 py-2 rounded-full lg:text-[17px] transition-all duration-300 flex items-center gap-5 border-2 border-transparent;
+ @apply px-4 py-3 rounded-full lg:text-[15px] transition-all duration-300 flex items-center gap-3;
+}
+
+.link:hover .link_text{
+	@apply block;
 }
