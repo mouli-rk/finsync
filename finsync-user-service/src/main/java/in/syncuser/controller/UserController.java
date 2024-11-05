@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class UserController {
 	
 	private final UserService userService;
-	
+		
 	@GetMapping("/fetchById")
 	public User fetchById(@RequestParam("id") Long id){
 		return userService.fetchById(id);
@@ -40,6 +40,5 @@ public class UserController {
 	public String getDefaultResponse() {
 		return "You are seeing a default page..!";
 	}
-
 
 }

@@ -1,7 +1,8 @@
 package in.syncuser.model;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,13 +22,12 @@ public class UserAuthDetails implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
 	private User user;
-	
-//	private String userName;
-//	private String password;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singleton(new SimpleGrantedAuthority("USER"));
+		var roles = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole().name()))
+				.collect(Collectors.toList());
+		 return roles;
 	}
 
 	@Override
