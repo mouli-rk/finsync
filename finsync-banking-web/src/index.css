@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 * {
-  font-family: "Open Sans";
+  font-family: "Poppins";
 }
 
 /* .form-container {
@@ -44,6 +44,10 @@
   background-size: cover;
 } */
 
-.login_logo h1,span{
-  font-family: 'Nasalization';
+.heading_font {
+  font-family: "Nasalization";
+}
+
+.scroll_bar::-webkit-scrollbar{
+  width: 0px;
 }

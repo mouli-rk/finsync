@@ -34,20 +34,16 @@ const ForgotPassword = () => {
       <div className="form-container bg-black bg-opacity-25 backdrop-blur-sm shadow-[0px_0px_10px] shadow-teal-500  px-2 py-4 sm:px-0 sm:py-0 overflow-hidden rounded-xl flex items-center justify-center z-10">
         <div className="image-container bg-teal-400 bg-opacity-55 relative p-10">
           <div className="login_logo text-black">
-            <h1 className="text-4xl flex justify-center items-center font-bold">
+            <h1 className="text-4xl heading_font flex justify-center items-center font-bold">
               Fin
               <span className="inline-block mx-2 text-teal-200">
                 <FaSyncAlt />
               </span>
-              <span className="">Sync</span>
+              Sync
             </h1>
           </div>
           <div className="image_1 w-[400px] relative top-[2rem]">
-            <img
-              src={loginImg}
-              alt="girl with mobile"
-              className="w-full "
-            />
+            <img src={loginImg} alt="girl with mobile" className="w-full " />
           </div>
           <div className="image_1 w-[200px] absolute bottom-0 -right-[6rem]">
             <img src={plantImg} alt="girl with mobile" className="w-full" />
@@ -60,9 +56,10 @@ const ForgotPassword = () => {
           className="p-3 md:p-8 w-[400px] flex flex-col gap-5"
           onSubmit={(e) => handleSubmit(e)}
         >
-
           <div className="mb-5">
-            <h1 className="text-3xl heading_font text-center text-teal-400">Forgot Password</h1>
+            <h1 className="text-3xl heading_font text-center text-teal-400">
+              Forgot Password
+            </h1>
           </div>
 
           <div className="w-full relative">

@@ -7,8 +7,14 @@ import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import loginImg from "../../../assets/login3.png";
 import plantImg from "../../../assets/plant1.png";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../services/authServices";
+import {
+  SET_ISLOGGEDIN,
+  SET_JWTTOKEN,
+  SET_NAME,
+} from "../../../redux/reducers/AuthSlice/authSlice";
 
 const initialState = {
   //userrole: "",
@@ -19,31 +25,29 @@ const initialState = {
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginDetails, setLoginDetails] = useState(initialState);
-
+  const { username, password } = loginDetails;
   const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (
-      loginDetails.password &&
-      loginDetails.username
-      //loginDetails.userrole
-    ) {
-      axios
-        .post(`http://localhost:9001/api/auth/authenticate`, loginDetails)
-        .then((data) => {
-          console.log(data);
-        });
-      toast.success("successfully loggedin");
-      navigate("/dashboard");
-    } else {
-      toast.error("please enter input");
-    }
-  };
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLoginDetails({ ...loginDetails, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!password || !username) {
+      return toast.error("please enter input");
+    }
+    try {
+      const Data = await loginUser(loginDetails);
+      dispatch(SET_ISLOGGEDIN(true));
+      dispatch(SET_NAME(Data));
+      dispatch(SET_JWTTOKEN(Data.jwtToken));
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -82,9 +86,10 @@ const Login = () => {
           className="p-3 md:p-8 w-[400px] flex flex-col gap-5"
           onSubmit={(e) => handleSubmit(e)}
         >
-          
           <div className="mb-5">
-            <h1 className="heading_font text-4xl text-center text-teal-400">Login</h1>
+            <h1 className="heading_font text-4xl text-center text-teal-400">
+              Login
+            </h1>
           </div>
           {/* <div className="w-full relative">
             <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-blue-500">
