@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User fetchById(Long id){
-		return userRepository.findById(id).orElse(null);
+		User user = userRepository.findById(id).orElse(null);
+		return user;
 	}
 	
 	@Override
