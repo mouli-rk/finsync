@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import in.syncuser.entity.User;
+
+import in.syncuser.dto.UserApiDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -21,13 +22,13 @@ public class UserAuthDetails implements UserDetails{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private User user;
+	private UserApiDTO user;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		var roles = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole().name()))
+		var roles = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.name()))
 				.collect(Collectors.toList());
-		 return roles;
+		return roles;
 	}
 
 	@Override

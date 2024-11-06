@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
-import in.syncuser.model.RoleModel;
 import in.syncuser.service.RoleService;
 
 @RestController
@@ -25,8 +25,8 @@ public class RoleController {
 	private RoleService roleService;
 	
 	@PostMapping("/insert")
-	@PreAuthorize("hasAuthority('ADMIN','BANK')")
-	public ResponseEntity<?> insertRole(@RequestBody RoleModel apiPayload) {
+	@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
+	public ResponseEntity<GrantedAuthority> insertRole(@RequestBody RoleApiDTO apiPayload) {
 		GrantedAuthority role = roleService.insertRole(apiPayload);
 		if (role != null)
 			return new ResponseEntity<>(role, HttpStatus.CREATED);
@@ -63,7 +63,7 @@ public class RoleController {
 	@GetMapping("/fetchByUID")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<?> fetchByUID(@RequestParam("UID") Long userId) {
-		List<GrantedAuthority> roles = roleService.fetchByUID(userId);
+		List<RoleApiDTO> roles = roleService.fetchByUID(userId);
 		if (roles != null && !roles.isEmpty())
 			return new ResponseEntity<>(roles, HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
