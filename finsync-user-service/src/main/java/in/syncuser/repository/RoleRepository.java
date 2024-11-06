@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import in.syncuser.entity.GrantedAuthority;
 
-public interface GrantedAuthorityRepository extends JpaRepository<GrantedAuthority, Integer> {
+public interface RoleRepository extends JpaRepository<GrantedAuthority, Integer> {
 
 	List<GrantedAuthority> findByUserId(Long userId);
 	
