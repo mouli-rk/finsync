@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import in.syncuser.constants.Role;
+import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
 import in.syncuser.entity.User;
-import in.syncuser.model.RoleModel;
 import in.syncuser.repository.RoleRepository;
 import in.syncuser.service.RoleService;
 
@@ -19,8 +18,8 @@ public class RoleServiceImpl implements RoleService{
 	private RoleRepository roleRepository;
 	
 	@Override
-	public GrantedAuthority insertRole(RoleModel apiModel) {
-		GrantedAuthority role = new GrantedAuthority(new User(apiModel.getUserId()), Role.valueOf(apiModel.getRole()));
+	public GrantedAuthority insertRole(RoleApiDTO apiModel) {
+		GrantedAuthority role = new GrantedAuthority(new User(apiModel.getUserId()), apiModel.getRole());
 		return roleRepository.save(role);
 	}
 
@@ -37,7 +36,7 @@ public class RoleServiceImpl implements RoleService{
 	}
 	
 	@Override
-	public List<GrantedAuthority> fetchByUID(Long id){
+	public List<RoleApiDTO> fetchByUID(Long id){
 		return roleRepository.findByUserId(id);
 	}
 	

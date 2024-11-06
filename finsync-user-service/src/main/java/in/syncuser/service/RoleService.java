@@ -2,8 +2,8 @@ package in.syncuser.service;
 
 import java.util.List;
 
+import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
-import in.syncuser.model.RoleModel;
 
 public interface RoleService {
 	
@@ -13,8 +13,8 @@ public interface RoleService {
 
 	List<GrantedAuthority> fetchAll();
 
-	List<GrantedAuthority> fetchByUID(Long id);
+	List<RoleApiDTO> fetchByUID(Long id);
 
-	GrantedAuthority insertRole(RoleModel apiModel);
+	GrantedAuthority insertRole(RoleApiDTO apiModel);
 
 }

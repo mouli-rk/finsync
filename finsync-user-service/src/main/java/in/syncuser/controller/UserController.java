@@ -2,6 +2,8 @@ package in.syncuser.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.syncuser.dto.UserApiDTO;
 import in.syncuser.entity.User;
 import in.syncuser.model.CommonModel;
 import in.syncuser.service.UserService;
@@ -24,6 +27,15 @@ public class UserController {
 	@GetMapping("/fetchById")
 	public User fetchById(@RequestParam("id") Long id){
 		return userService.fetchById(id);
+	}
+	
+	@GetMapping("/fetchUserDetails")
+	public ResponseEntity<UserApiDTO> fetchUserDetails(@RequestParam("username") String apiPayLoad){
+		UserApiDTO apiResponse = userService.fetchUserDetails(apiPayLoad).orElse(null);
+		if(apiResponse!=null) {
+			return new ResponseEntity<UserApiDTO>(apiResponse, HttpStatus.OK);
+		}
+		return new ResponseEntity<UserApiDTO>(HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping("/fetchAll")
