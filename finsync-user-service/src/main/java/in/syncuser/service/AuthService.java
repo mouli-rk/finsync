@@ -14,6 +14,6 @@ public interface AuthService {
 
 	Boolean secureAllPasswords();
 
-	CommonModel authenticateUser(LoginModel login, HttpServletResponse response);	
+	CommonModel authenticate(LoginModel login, HttpServletResponse response);	
 
 }

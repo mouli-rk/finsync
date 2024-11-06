@@ -40,42 +40,36 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public CommonModel authenticateUser(LoginModel login, HttpServletResponse response) {
+	public CommonModel authenticate(LoginModel apiRequest, HttpServletResponse httpResponse) {
 		Authentication authentication = authManager
-				.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
-		CommonModel model = new CommonModel();
+				.authenticate(new UsernamePasswordAuthenticationToken(apiRequest.getUsername(), apiRequest.getPassword()));
+		CommonModel apiModel = new CommonModel();
 		if (authentication.isAuthenticated()) {
-			String jwtToken = jwtUtils.generateJwtToken(login.getUsername(), expirationTime);
-			if (jwtToken != null) {
-				User user = userRepository.findByUsername(login.getUsername());
-				model.setId(user.getId());
-				model.setFullName(user.getFullName());
-				model.setEmail(user.getEmail());
-				model.setPhoneNo(user.getPhoneNo());
-				model.setFirstName(user.getFirstName());
-				model.setLastName(user.getLastName());
-				model.setMessage(FinSyncConstants.SUCCESS);
-				model.setJwtToken(jwtToken);
-				// EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
-				// FynSyncConstants.LOGIN_ALERT);
-				// emailSenderService.sendEmailWithAttachment(mailParmas);
-				configureTokenInCookie(jwtToken, response);
-				return model;
+			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), expirationTime);
+			if (jwtToken != null && !jwtToken.isBlank()) {
+				User user = userRepository.findByUsername(apiRequest.getUsername());
+				apiModel.setEmail(user.getEmail());
+				apiModel.setPhoneNo(user.getPhoneNo());
+				apiModel.setFirstName(user.getFirstName());
+				apiModel.setLastName(user.getLastName());
+				/* EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
+				FynSyncConstants.LOGIN_ALERT);
+				emailSenderService.sendEmailWithAttachment(mailParmas);*/
+				configureCookies(jwtToken, httpResponse);
+				return apiModel;
 			}
-			model.setMessage(FinSyncConstants.JWT_TOKEN_NOT_AVAILABLE);
-			return model;
+			return apiModel;
 		}
-		model.setMessage(FinSyncConstants.AUTHENTICATION_FAILED);
-		return model;
+		return apiModel;
 	}
 
-	public void configureTokenInCookie(String jwtToken, HttpServletResponse response) {
-		Cookie cookie = new Cookie("authToken", jwtToken);
+	public void configureCookies(String jwtToken, HttpServletResponse httpResponse) {
+		Cookie cookie = new Cookie("Bearer", jwtToken);
 		cookie.setHttpOnly(true);
 		cookie.setSecure(true);
 		cookie.setPath("/");
 		cookie.setMaxAge(9 * 60 * 60);
-		response.addCookie(cookie);
+		httpResponse.addCookie(cookie);
 	}
 
 	@Override

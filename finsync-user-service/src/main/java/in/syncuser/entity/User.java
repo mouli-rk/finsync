@@ -47,6 +47,8 @@ public class User extends BaseEntity{
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<GrantedAuthority> roles;
+	
+	
 
 	public User(String firstName, String lastName, String gender, String fullName, String email, String phoneNo,
 			String alternativePhnNo, String username, String password,  Address address) {
@@ -71,6 +73,11 @@ public class User extends BaseEntity{
 	@PrePersist
 	private void generateFullName() {
 		this.fullName = this.firstName +" "+this.lastName;
+	}
+
+	public User(Long id) {
+		super();
+		this.id = id;
 	}
 
 }

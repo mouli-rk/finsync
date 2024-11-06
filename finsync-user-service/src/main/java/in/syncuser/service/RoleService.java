@@ -3,8 +3,9 @@ package in.syncuser.service;
 import java.util.List;
 
 import in.syncuser.entity.GrantedAuthority;
+import in.syncuser.model.RoleModel;
 
-public interface GrantedAuthorityService {
+public interface RoleService {
 	
 	public GrantedAuthority findById(Integer id);
 
@@ -13,5 +14,7 @@ public interface GrantedAuthorityService {
 	List<GrantedAuthority> fetchAll();
 
 	List<GrantedAuthority> fetchByUID(Long id);
+
+	GrantedAuthority insertRole(RoleModel apiModel);
 
 }

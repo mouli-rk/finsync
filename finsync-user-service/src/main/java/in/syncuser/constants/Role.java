@@ -1,5 +1,5 @@
 package in.syncuser.constants;
 
 public enum Role {
-	USER, ADMIN, MANAGER
+	ADMIN, BANK, EMPLOYEE, USER
 }
