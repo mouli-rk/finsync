@@ -9,10 +9,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import in.syncuser.config.JwtUtils;
 import in.syncuser.constants.FinSyncConstants;
+import in.syncuser.dto.UserApiDTO;
+import in.syncuser.entity.Token;
 import in.syncuser.entity.User;
 import in.syncuser.model.CommonModel;
 import in.syncuser.model.EmailDetails;
 import in.syncuser.model.LoginModel;
+import in.syncuser.repository.TokenRepository;
 import in.syncuser.repository.UserRepository;
 import in.syncuser.service.EmailSenderService;
 import jakarta.servlet.http.Cookie;
@@ -26,17 +29,19 @@ public class AuthServiceImpl implements AuthService {
 	private final EmailSenderService emailSenderService;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final AuthenticationManager authManager;
+	private final TokenRepository tokenRepository;
 	private final JwtUtils jwtUtils;
 	private Integer expirationTime = 60;
 
 	public AuthServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService,
-			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, JwtUtils jwtUtils) {
+			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, TokenRepository tokenRepository, JwtUtils jwtUtils) {
 		super();
 		this.userRepository = userRepository;
 		this.emailSenderService = emailSenderService;
 		this.passwordEncoder = passwordEncoder;
 		this.authManager = authManager;
 		this.jwtUtils = jwtUtils;
+		this.tokenRepository = tokenRepository;
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
 		if (authentication.isAuthenticated()) {
 			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), expirationTime);
 			if (jwtToken != null && !jwtToken.isBlank()) {
-				User user = userRepository.findByUsername(apiRequest.getUsername());
+				UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
 				apiModel.setEmail(user.getEmail());
 				apiModel.setPhoneNo(user.getPhoneNo());
 				apiModel.setFirstName(user.getFirstName());
@@ -55,6 +60,7 @@ public class AuthServiceImpl implements AuthService {
 				/* EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
 				FynSyncConstants.LOGIN_ALERT);
 				emailSenderService.sendEmailWithAttachment(mailParmas);*/
+				configureToken(user.getId(), jwtToken);
 				configureCookies(jwtToken, httpResponse);
 				return apiModel;
 			}
@@ -62,9 +68,17 @@ public class AuthServiceImpl implements AuthService {
 		}
 		return apiModel;
 	}
+	
+	private void configureToken(Long userId, String jwtToken) {
+		Token token = tokenRepository.fetchActiveToken(userId)
+				.orElse(new Token(new User(userId)));
+		token.setToken(jwtToken);
+		token.setIsActive(true);
+		tokenRepository.save(token);
+	}
 
-	public void configureCookies(String jwtToken, HttpServletResponse httpResponse) {
-		Cookie cookie = new Cookie("Bearer", jwtToken);
+	private void configureCookies(String jwtToken, HttpServletResponse httpResponse) {
+		Cookie cookie = new Cookie("jwtToken", jwtToken);
 		cookie.setHttpOnly(true);
 		cookie.setSecure(true);
 		cookie.setPath("/");

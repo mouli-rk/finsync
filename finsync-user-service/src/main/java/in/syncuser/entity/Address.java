@@ -1,5 +1,7 @@
 package in.syncuser.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Builder
+@JsonIgnoreType
 public class Address extends BaseEntity{
 	
 	@Id

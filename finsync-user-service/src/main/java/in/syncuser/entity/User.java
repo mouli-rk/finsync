@@ -42,10 +42,10 @@ public class User extends BaseEntity{
 	
 	private String password;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Address address;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<GrantedAuthority> roles;
 
 	public User(String firstName, String lastName, String gender, String fullName, String email, String phoneNo,
