@@ -16,10 +16,13 @@ import javax.crypto.SecretKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import in.syncuser.repository.TokenRepository;
 
 @Service
 @PropertySource("classpath:application.yaml")
@@ -34,6 +37,9 @@ public class JwtUtils {
 	private String jwtExpirationMins;
 	
 	private Integer jwtExpirationTime;
+	
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
@@ -84,7 +90,8 @@ public class JwtUtils {
 
 	public boolean validToken(String token, UserDetails userDetails) {
 		final String userName = getUsernameFromJwt(token);
-		return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		Boolean isActive = tokenRepository.findByToken(token).map(jwt -> jwt.getIsActive()).orElse(Boolean.FALSE);
+		return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token) && isActive);
 	}
 
 	public boolean isTokenExpired(String token) {

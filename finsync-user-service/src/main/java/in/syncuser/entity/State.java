@@ -1,5 +1,7 @@
 package in.syncuser.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Builder
+@JsonIgnoreType
 public class State extends BaseEntity{
 	
 	@Id

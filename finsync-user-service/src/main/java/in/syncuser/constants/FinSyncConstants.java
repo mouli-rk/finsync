@@ -11,5 +11,7 @@ public class FinSyncConstants {
 	public static final String USER_NOT_FOUND = "USER_NOT_FOUND";
 	public static final String TOKEN_EXPIRED = "TOKEN_EXPIRED";
 	public static final String EMAIL_SEND_FAILURE = "EMAIL_SEND_FAILURE";
+	public static final String DUPLICATE_ENTRY = "DUPLICATE_ENTRY";
+	public static final String DATA_NOT_EXISTS = "DATA_NOT_EXISTS";
 
 }

@@ -3,6 +3,7 @@ package in.syncuser.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
 import in.syncuser.service.RoleService;
@@ -26,11 +28,15 @@ public class RoleController {
 	
 	@PostMapping("/insert")
 	@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
-	public ResponseEntity<GrantedAuthority> insertRole(@RequestBody RoleApiDTO apiPayload) {
-		GrantedAuthority role = roleService.insertRole(apiPayload);
-		if (role != null)
-			return new ResponseEntity<>(role, HttpStatus.CREATED);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> insertRole(@RequestBody RoleApiDTO apiPayload) {
+		try {
+			GrantedAuthority role = roleService.insertRole(apiPayload);
+			if (role != null)
+				return new ResponseEntity<>(role, HttpStatus.CREATED);
+			return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(FinSyncConstants.DUPLICATE_ENTRY, HttpStatus.CONFLICT);
+		}
 	}
 	
 	@GetMapping("/fetchById")

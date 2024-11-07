@@ -7,41 +7,35 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = false)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Builder
 @JsonIgnoreType
-public class City extends BaseEntity{
+@Entity
+public class Token {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Integer id;
 	
-	@Column(nullable = false, unique = true)
-	private String cityName;
+	@Column(nullable = false)
+	private String token;
 	
-	@ManyToOne
-	private District district;
+	@Column(nullable = false)
+	private Boolean isActive;
+	
+	@OneToOne
+	private User user;
 
-	public City(Long id) {
+	public Token(User user) {
 		super();
-		Id = id;
+		this.user = user;
 	}
 	
-	public City(String cityName, District district) {
-		super();
-		this.cityName = cityName;
-		this.district = district;
-	}
-
+	
 }
