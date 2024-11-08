@@ -32,12 +32,7 @@ public class JwtUtils {
 
 	@Value("${spring.application.jwtSecret}")
 	private String jwtSecret;
-
-	@Value("${spring.application.jwtExpirationMins}")
-	private String jwtExpirationMins;
-	
-	private Integer jwtExpirationTime;
-	
+		
 	@Autowired
 	private TokenRepository tokenRepository;
 
@@ -54,12 +49,9 @@ public class JwtUtils {
 	}
 
 	public String generateJwtToken(String username, Integer jwtExpirationMins) throws InvalidKeyException {
-		jwtExpirationTime = Integer.parseInt(this.jwtExpirationMins);
-		if (jwtExpirationMins != null)
-			jwtExpirationTime = jwtExpirationMins;
 		Map<String, Object> claims = new HashMap<>();
 		jwtToken = Jwts.builder().claims().add(claims).subject(username).issuedAt(new Date(System.currentTimeMillis()))
-				.expiration(new Date(System.currentTimeMillis() + (jwtExpirationTime * 60 * 1000))).and().signWith(key())
+				.expiration(new Date(System.currentTimeMillis() + jwtExpirationMins * 60 * 1000)).and().signWith(key())
 				.compact();
 		logger.debug("JWT Token Generated : {}", jwtToken);
 		return jwtToken;

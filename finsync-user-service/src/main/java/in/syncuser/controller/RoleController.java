@@ -33,7 +33,7 @@ public class RoleController {
 			GrantedAuthority role = roleService.insertRole(apiPayload);
 			if (role != null)
 				return new ResponseEntity<>(role, HttpStatus.CREATED);
-			return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (DataIntegrityViolationException e) {
 			return new ResponseEntity<>(FinSyncConstants.DUPLICATE_ENTRY, HttpStatus.CONFLICT);
 		}

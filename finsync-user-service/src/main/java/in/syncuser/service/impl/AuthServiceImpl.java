@@ -2,6 +2,7 @@ package in.syncuser.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,7 +32,12 @@ public class AuthServiceImpl implements AuthService {
 	private final AuthenticationManager authManager;
 	private final TokenRepository tokenRepository;
 	private final JwtUtils jwtUtils;
-	private Integer expirationTime = 60;
+	
+	@Value("${spring.application.cookieAge}")
+	private String cookieAge;
+	
+	@Value("${spring.application.jwtExpirationMins}")
+	private String jwtExpirationMins;
 
 	public AuthServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService,
 			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, TokenRepository tokenRepository, JwtUtils jwtUtils) {
@@ -50,7 +56,8 @@ public class AuthServiceImpl implements AuthService {
 				.authenticate(new UsernamePasswordAuthenticationToken(apiRequest.getUsername(), apiRequest.getPassword()));
 		CommonModel apiModel = new CommonModel();
 		if (authentication.isAuthenticated()) {
-			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), expirationTime);
+			Integer jwtExpiration = Integer.parseInt(jwtExpirationMins);
+			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), jwtExpiration);
 			if (jwtToken != null && !jwtToken.isBlank()) {
 				UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
 				apiModel.setEmail(user.getEmail());
@@ -78,11 +85,12 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	private void configureCookies(String jwtToken, HttpServletResponse httpResponse) {
-		Cookie cookie = new Cookie("jwtToken", jwtToken);
+		Cookie cookie = new Cookie("Bearer", jwtToken);
+		int cookieExpiry = Integer.parseInt(cookieAge);
 		cookie.setHttpOnly(true);
 		cookie.setSecure(true);
 		cookie.setPath("/");
-		cookie.setMaxAge(9 * 60 * 60);
+		cookie.setMaxAge(cookieExpiry * 60);
 		httpResponse.addCookie(cookie);
 	}
 
