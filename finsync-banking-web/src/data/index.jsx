@@ -1,6 +1,7 @@
 import { IoMdLogIn, IoMdInformationCircle } from "react-icons/io";
 import { FaUserEdit, FaUser, FaUsers } from "react-icons/fa";
-import { IoHomeSharp, IoWallet } from "react-icons/io5";
+import { IoWallet } from "react-icons/io5";
+import { IoMdHome } from "react-icons/io";
 import {
   MdOutlinePhoneIphone,
   MdSpaceDashboard,
@@ -27,7 +28,7 @@ export const authLinks = [
 export const pageLinks = [
   {
     title: "Home",
-    icon: <IoHomeSharp />,
+    icon: <IoMdHome />,
     url: "/",
   },
   {

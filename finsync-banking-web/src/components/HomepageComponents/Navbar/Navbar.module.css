@@ -1,8 +1,16 @@
-.active{
- @apply bg-teal-900 
+.active.link{
+ @apply text-black
 }
 
 .link{
- @apply px-3 py-2 lg:px-5 lg:py-1 rounded-full lg:text-[16px] transition-all duration-300 flex items-center gap-2 border-2 border-transparent;
+ @apply px-3 py-2 lg:px-5 lg:py-1 rounded-full lg:text-[16px] transition-all duration-300 flex items-center gap-1 border-2 border-transparent text-gray-600 hover:text-black hover:scale-110;
  /* font-family: "Nasalization"; */
+}
+
+.link:hover .link_icon{
+ @apply text-cyan-400
+}
+
+.active .link_icon{
+ @apply text-cyan-400
 }

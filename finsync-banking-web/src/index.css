@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: "Poppins";
+  font-family: "Roboto";
 }
 
 /* .form-container {
@@ -30,8 +30,8 @@
   opacity: 1;
   width: 100%;
   height: 100%;
-  background-image: url("./assets/login_bg1.jpg");
-  background-position: bottom;
+  /* background-image: url("./assets/login_bg5.jpg"); */
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   /* filter: saturate(50%) brightness(80%) hue-rotate(30deg); */
@@ -45,9 +45,20 @@
 } */
 
 .heading_font {
-  font-family: "Nasalization";
+  /* font-family: "Nasalization"; */
+  font-family: 'Poppins';
 }
 
 .scroll_bar::-webkit-scrollbar{
   width: 0px;
 }
+
+.text_shadow{
+  text-shadow: 2px 2px 3px transparent;
+  -webkit-text-stroke: 1px aqua;
+}
+
+/* .text_shadow_black{
+  text-shadow: 2px 2px 3px transparent;
+  -webkit-text-stroke: .5px gray;
+} */
