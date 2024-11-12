@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT new in.syncuser.dto.UserApiDTO(u.id, u.username, u.password, u.firstName, u.lastName, u.email, u.phoneNo) FROM User u WHERE u.username =?1")
 	public Optional<UserApiDTO> fetchUserDetails(String username);
-	
+
 	public User findByUsername(String username);
 
 }

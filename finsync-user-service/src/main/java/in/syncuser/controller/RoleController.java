@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
+import in.syncuser.entity.RoleType;
 import in.syncuser.service.RoleService;
 
 @RestController
@@ -33,6 +34,19 @@ public class RoleController {
 			GrantedAuthority role = roleService.insertRole(apiPayload);
 			if (role != null)
 				return new ResponseEntity<>(role, HttpStatus.CREATED);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(FinSyncConstants.DUPLICATE_ENTRY, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PostMapping("/insertRoleType")
+	@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
+	public ResponseEntity<?> insertRoleType(@RequestBody RoleApiDTO apiPayload) {
+		try {
+			RoleType roleType = roleService.insertRoleType(apiPayload);
+			if (roleType != null)
+				return new ResponseEntity<>(roleType, HttpStatus.CREATED);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (DataIntegrityViolationException e) {
 			return new ResponseEntity<>(FinSyncConstants.DUPLICATE_ENTRY, HttpStatus.CONFLICT);

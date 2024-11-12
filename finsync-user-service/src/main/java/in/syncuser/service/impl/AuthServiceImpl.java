@@ -60,10 +60,12 @@ public class AuthServiceImpl implements AuthService {
 			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), jwtExpiration);
 			if (jwtToken != null && !jwtToken.isBlank()) {
 				UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
-				apiModel.setEmail(user.getEmail());
-				apiModel.setPhoneNo(user.getPhoneNo());
+				apiModel.setUsername(apiRequest.getUsername());
+				apiModel.setRole(apiRequest.getRole());
 				apiModel.setFirstName(user.getFirstName());
 				apiModel.setLastName(user.getLastName());
+				apiModel.setEmail(user.getEmail());
+				apiModel.setPhoneNo(user.getPhoneNo());
 				/* EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
 				FynSyncConstants.LOGIN_ALERT);
 				emailSenderService.sendEmailWithAttachment(mailParmas);*/

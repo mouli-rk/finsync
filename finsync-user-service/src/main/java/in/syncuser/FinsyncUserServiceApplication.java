@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FinsyncUserServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FinsyncUserServiceApplication.class, args);
+		SpringApplication.run(FinsyncUserServiceApplication.class, args); 
 	}
 
 }

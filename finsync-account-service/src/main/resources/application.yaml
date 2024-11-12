@@ -1,5 +1,34 @@
 spring: 
   application: 
     name: finsync-account-service
-  config: 
-    import: "optional:configserver:http://localhost:8088"
+  #config: 
+    #import: "optional:configserver:http://localhost:8088"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finsyncaccounts
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa: 
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect  
+   
+  mail: 
+    host: smtp.gmail.com
+    port: 587
+    username: chandramoulipydimalla@gmail.com
+    password: azpheegkluiotcpm
+    properties: 
+      mail: 
+        smtp: 
+          auth: true
+          starttls: 
+            enable: true
+    
+server:
+  port: 9002
