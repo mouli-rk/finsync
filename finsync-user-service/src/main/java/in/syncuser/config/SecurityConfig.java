@@ -34,10 +34,12 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.cors(Customizer.withDefaults()).csrf(customizer -> customizer.disable())
-				.authorizeHttpRequests(request -> request
-						.requestMatchers("api/auth/authenticate", "api/auth/send/resetLink", "api/auth/reset")
-						.permitAll().anyRequest().authenticated())
+		return httpSecurity
+				.cors(Customizer.withDefaults()).csrf(
+						customizer -> customizer.disable())
+				.authorizeHttpRequests(
+						request -> request.requestMatchers("api/auth/authenticate", "api/auth/send/resetLink",
+								"api/auth/reset", "app/health").permitAll().anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

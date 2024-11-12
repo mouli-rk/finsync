@@ -17,4 +17,5 @@ public class LoginModel {
 	private String message;
 	private String email;
 	private String phoneNo;
+	private String role;
 }
