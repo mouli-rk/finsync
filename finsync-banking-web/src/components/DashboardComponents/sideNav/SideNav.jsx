@@ -34,7 +34,7 @@ const SideNav = ({ userName, userEmail }) => {
     <div
       className={`${
         show ? "w-[80px]" : "w-[230px]"
-      } h-full flex flex-col justify-between relative bg-zinc-700 bg-opacity-30 backdrop-blur-sm py-3 rounded-xl border-2 border-zinc-700 transition-all duration-300`}
+      } h-full flex flex-col justify-between relative bg-gray-100 bg-opacity-35 backdrop-blur-md rounded-r-xl py-3 border-r-2 border-gray-100 transition-all duration-300`}
     >
       {/* <div className="logo py-2">
         <h1 className="flex items-center gap-1 text-2xl heading_font ">
@@ -47,7 +47,7 @@ const SideNav = ({ userName, userEmail }) => {
       </div> */}
 
       <div
-        className={`absolute cursor-pointer z-10 top-3 p-1 rounded-full -right-5 bg-zinc-700 text-zinc-200 text-[25px] ${
+        className={`absolute cursor-pointer z-10 top-3 p-1 rounded-full -right-5 bg-gray-300 text-zinc-800 text-[25px] transition-all duration-500 ${
           show ? "rotate-180" : "rotate-0"
         }`}
         onClick={() => setShow(!show)}
@@ -60,14 +60,14 @@ const SideNav = ({ userName, userEmail }) => {
           className={`${styles.box_border} relative px-3 flex justify-start items-center gap-3 pt-5 pb-8 box_border transition-all duration-500`}
         >
           <div className="user_img z-30">
-            <FaCircleUser size={52} className="text-teal-300" />
+            <FaCircleUser size={52} />
           </div>
           <div
             className={`${
               show ? "hidden" : "inline-block"
             } transition-all duration-500`}
           >
-            <h1 className="heading_font text-[16px] text-teal-300 text-nowrap">
+            <h1 className="heading_font text-[14px] text-nowrap">
               {userName || "User Name"}
             </h1>
             <span className="text-[11px] font-normal">
@@ -80,20 +80,20 @@ const SideNav = ({ userName, userEmail }) => {
           {sideNavLinks.map((navlink, i) => {
             return (
               <NavLink key={i} to={navlink.link} className={activeLink}>
-                <span className="text-[25px] text-teal-400">
+                <span className="text-[25px]">
                   {navlink.icon}
                 </span>
                 <div
                   className={`${
                     show
-                      ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-teal-500 hidden transition-all duration-500 ${styles.link_text} text-zinc-800 font-medium`
+                      ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-gray-500 hidden transition-all duration-500 ${styles.link_text} text-white font-medium`
                       : "static"
                   } font-light flex`}
                 >
                   {navlink.title}
                   {show && (
                     <div
-                      className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-teal-500 rotate-45 -z-10`}
+                      className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-gray-500 rotate-45 -z-10`}
                     ></div>
                   )}
                 </div>
@@ -106,20 +106,20 @@ const SideNav = ({ userName, userEmail }) => {
       <div className="px-2 flex flex-col h-[100px]">
         <div className="flex flex-col">
           <div className={`${styles.link} cursor-pointer`}>
-            <span className="text-[25px] text-teal-400">
+            <span className="text-[25px]">
               <BiSolidHelpCircle />
             </span>
             <div
               className={`${
                 show
-                  ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-teal-500 hidden transition-all duration-500 ${styles.link_text} text-zinc-800 font-medium`
+                  ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-gray-500 hidden transition-all duration-500 ${styles.link_text} text-zinc-200 font-medium`
                   : "static"
               } font-light flex`}
             >
               Help
               {show && (
                 <div
-                  className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-teal-500 rotate-45 -z-10`}
+                  className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-gray-500 rotate-45 -z-10`}
                 ></div>
               )}
             </div>
@@ -129,20 +129,20 @@ const SideNav = ({ userName, userEmail }) => {
             className={`${styles.link} cursor-pointer`}
             onClick={handleLogout}
           >
-            <span className="text-[25px] text-teal-400">
+            <span className="text-[25px]">
               <RiLogoutCircleLine />
             </span>
             <div
               className={`${
                 show
-                  ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-teal-500 hidden transition-all duration-500 ${styles.link_text} text-zinc-800 font-medium`
+                  ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-gray-500 hidden transition-all duration-500 ${styles.link_text} text-zinc-200 font-medium`
                   : "static"
               } font-light flex`}
             >
               Logout
               {show && (
                 <div
-                  className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-teal-500 rotate-45 -z-10`}
+                  className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-gray-500 rotate-45 -z-10`}
                 ></div>
               )}
             </div>

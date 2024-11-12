@@ -5,11 +5,11 @@
 	left: 0;
 	width: 100%;
 	height: 2px;
-	background: linear-gradient(to right, #181818, #00d6b289, #181818);
+	background: linear-gradient(to right, #cfcfcf, #00000089, #cfcfcf);
 }
 
 .active{
- @apply bg-zinc-950 bg-opacity-60;
+ @apply bg-zinc-800 text-white;
 }
 
 .link{

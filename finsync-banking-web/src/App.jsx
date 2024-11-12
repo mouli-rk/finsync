@@ -40,7 +40,7 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <div className="bg-black text-white overflow-x-hidden">
+    <div className="overflow-x-hidden">
       <ToastContainer theme="colored" transition={Bounce} />
 
       <RouterProvider router={router} />
