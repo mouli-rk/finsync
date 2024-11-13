@@ -13,5 +13,7 @@ public class FinSyncConstants {
 	public static final String EMAIL_SEND_FAILURE = "EMAIL_SEND_FAILURE";
 	public static final String DUPLICATE_ENTRY = "DUPLICATE_ENTRY";
 	public static final String DATA_NOT_EXISTS = "DATA_NOT_EXISTS";
+	public static final String UNAUTHORIZED = "UNAUTHORIZED";
+
 
 }

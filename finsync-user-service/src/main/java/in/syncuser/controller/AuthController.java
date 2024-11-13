@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,11 +39,12 @@ public class AuthController {
 	}
 	
 	@GetMapping("/fetchCurrentModulePrivileges")
-	@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
+	//@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
 	public ResponseEntity<?> fetchCurrentModulePrivileges() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		//List<ModulePrivilege> privileges = modulePrivilegeService.fetchAllModulePrivileges();
+		//String authorities = RoleContext.getCurrentrole();
 		if (authorities != null)
 			return new ResponseEntity<Collection<? extends GrantedAuthority>>(authorities, HttpStatus.OK);
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
