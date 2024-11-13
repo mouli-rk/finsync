@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.constants.Role;
@@ -40,8 +39,9 @@ public class SystemModuleController {
 	}
 	
 	@GetMapping("/fetchModulesByRoleType")
-	public ResponseEntity<List<SystemModule>> fetchModulesByRoleType(@RequestParam("roleType") Role roleType) {
+	public ResponseEntity<List<SystemModule>> fetchModulesByRoleType(@RequestParam("role") String role) {
 		try {
+			Role roleType = Role.valueOf(role);
 			List<SystemModule> modules = systemModuleService.fetchModulesByRoleType(roleType);
 			if (modules != null && !modules.isEmpty()) {
 				return new ResponseEntity<List<SystemModule>>(modules, HttpStatus.OK);
