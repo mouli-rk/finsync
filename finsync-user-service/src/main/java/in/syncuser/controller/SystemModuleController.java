@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.syncuser.constants.FinSyncConstants;
+import in.syncuser.constants.Role;
 import in.syncuser.entity.SystemModule;
 import in.syncuser.service.SystemModuleService;
 
@@ -36,11 +37,25 @@ public class SystemModuleController {
 			return new ResponseEntity<>(FinSyncConstants.DUPLICATE_ENTRY, HttpStatus.CONFLICT);
 		}
 	}
+	
+	@GetMapping("/fetchModulesByRoleType")
+	public ResponseEntity<List<SystemModule>> fetchModulesByRoleType(@RequestParam("role") String role) {
+		try {
+			Role roleType = Role.valueOf(role);
+			List<SystemModule> modules = systemModuleService.fetchModulesByRoleType(roleType);
+			if (modules != null && !modules.isEmpty()) {
+				return new ResponseEntity<List<SystemModule>>(modules, HttpStatus.OK);
+			}
+			return new ResponseEntity<List<SystemModule>>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<List<SystemModule>>(HttpStatus.METHOD_NOT_ALLOWED);
+		}
+	}
 
 	@GetMapping("/fetchAll")
 	public ResponseEntity<List<SystemModule>> fetchAll() {
 		List<SystemModule> modules = systemModuleService.fetchAllSystemModules();
-		if (modules != null) {
+		if (modules != null && !modules.isEmpty()) {
 			return new ResponseEntity<List<SystemModule>>(modules, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<SystemModule>>(HttpStatus.NO_CONTENT);

@@ -30,7 +30,6 @@ public class CommonModel extends LoginModel{
 	private String accountNumber;
 	private BigDecimal accountBalance;
 	private String accountType;
-	private Boolean status;
 	private Long addressId;
 	private Long userId;
 	private String drNo;
