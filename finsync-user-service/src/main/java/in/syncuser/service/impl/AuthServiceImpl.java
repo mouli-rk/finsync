@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import in.syncuser.config.JwtUtils;
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.dto.UserApiDTO;
@@ -52,30 +53,40 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public CommonModel authenticate(LoginModel apiRequest, HttpServletResponse httpResponse) {
-		Authentication authentication = authManager
-				.authenticate(new UsernamePasswordAuthenticationToken(apiRequest.getUsername(), apiRequest.getPassword()));
+		//RoleContext.setCurrentRole(apiRequest.getRole());
+		//SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(apiRequest.getRole());
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+				apiRequest.getUsername(), apiRequest.getPassword());
+		Authentication authentication = authManager.authenticate(authToken);
+		//authentication.getAuthorities().removeIf(role -> !role.equals(grantedAuthority)); 
 		CommonModel apiModel = new CommonModel();
 		if (authentication.isAuthenticated()) {
 			Integer jwtExpiration = Integer.parseInt(jwtExpirationMins);
 			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), jwtExpiration);
-			if (jwtToken != null && !jwtToken.isBlank()) {
-				UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
-				apiModel.setUsername(apiRequest.getUsername());
-				apiModel.setRole(apiRequest.getRole());
-				apiModel.setFirstName(user.getFirstName());
-				apiModel.setLastName(user.getLastName());
-				apiModel.setEmail(user.getEmail());
-				apiModel.setPhoneNo(user.getPhoneNo());
-				/* EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
-				FynSyncConstants.LOGIN_ALERT);
-				emailSenderService.sendEmailWithAttachment(mailParmas);*/
-				configureToken(user.getId(), jwtToken);
-				configureCookies(jwtToken, httpResponse);
-				return apiModel;
-			}
+			configureLoginDetails(apiModel, apiRequest, jwtToken);
+			configureToken(apiModel.getUserId(), jwtToken);
+			configureCookies(jwtToken, httpResponse);
 			return apiModel;
 		}
 		return apiModel;
+	}
+	
+	private void configureLoginDetails(CommonModel apiModel, LoginModel apiRequest, String jwtToken) {
+		if (jwtToken != null && !jwtToken.isBlank()) {
+			UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
+			apiModel.setUsername(apiRequest.getUsername());
+			apiModel.setRole(apiRequest.getRole());
+			apiModel.setFirstName(user.getFirstName());
+			apiModel.setLastName(user.getLastName());
+			apiModel.setEmail(user.getEmail());
+			apiModel.setPhoneNo(user.getPhoneNo());
+			apiModel.setUserId(user.getId());
+			/*
+			 * EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
+			 * FynSyncConstants.LOGIN_ALERT);
+			 * emailSenderService.sendEmailWithAttachment(mailParmas);
+			 */
+		}
 	}
 	
 	private void configureToken(Long userId, String jwtToken) {

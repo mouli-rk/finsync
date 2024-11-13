@@ -39,7 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private Optional<UserApiDTO> fetchUserDetails(String username) {
 		Optional<UserApiDTO> apiModel = userRepository.fetchUserDetails(username);
 		List<RoleApiDTO> roles = roleRepository.findByUserId(apiModel.get().getId());
-		List<Role> rolesList = roles.stream().map(role -> role.getRole()).collect(Collectors.toList());
+		List<Role> rolesList = roles.stream()
+				//.filter(role -> role.getRole().name().equals(RoleContext.getCurrentrole()))
+				.map(role -> role.getRole()).collect(Collectors.toList());
+		/*if (rolesList.isEmpty()) {
+			throw new AccessDeniedException(FinSyncConstants.UNAUTHORIZED);
+		}*/
 		apiModel.get().setRoles(rolesList);
 		return apiModel;
 	}

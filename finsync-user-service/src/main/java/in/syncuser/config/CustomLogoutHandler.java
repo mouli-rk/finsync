@@ -39,7 +39,6 @@ public class CustomLogoutHandler implements LogoutHandler {
 				model.setStatus(HttpStatus.OK.value());
 				model.setMessage(FinSyncConstants.SUCCESS);
 				mapper.writeValue(response.getWriter(), model);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
