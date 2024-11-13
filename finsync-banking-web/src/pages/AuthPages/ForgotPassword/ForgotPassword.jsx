@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { FaSyncAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import loginImg from "../../../assets/forgot2.png";
+import loginImg from "../../../assets/forgot1.png";
 import plantImg from "../../../assets/plant1.png";
 
 const ForgotPassword = () => {
@@ -26,26 +26,32 @@ const ForgotPassword = () => {
 
   return (
     <div
-      className="h-screen p-4 w-full flex justify-center items-center relative"
+      className="h-screen bg-gray-300 p-4 w-full flex justify-center items-center relative"
       id="login_screen"
     >
       {/* <div className="absolute top-[50%] left-[50%] bg-blue-950 translate-x-[-50%] translate-y-[-50%] w-[300px] h-[380px] md:w-[500px] md:h-[500px] rounded-[100%] blur-[90px]"></div> */}
 
-      <div className="form-container bg-black bg-opacity-25 backdrop-blur-sm shadow-[0px_0px_10px] shadow-teal-500  px-2 py-4 sm:px-0 sm:py-0 overflow-hidden rounded-xl flex items-center justify-center z-10">
-        <div className="image-container bg-teal-400 bg-opacity-55 relative p-10">
+      <div className="form-container bg-zinc-400 bg-opacity-25 backdrop-blur-sm shadow-[0px_10px_15px] shadow-gray-400  px-2 py-4 sm:px-0 sm:py-0 overflow-hidden rounded-xl flex items-center justify-center z-10">
+        <div className="image-container bg-gray-200 image-container relative p-10">
           <div className="login_logo text-black">
-            <h1 className="text-4xl heading_font flex justify-center items-center font-bold">
-              Fin
-              <span className="inline-block mx-2 text-teal-200">
+            <h1 className="heading_font text-4xl flex justify-center items-center font-bold">
+              <span className="text-cyan-600 text_shadow_black border-l-4 border-black pl-2">
+                Fin
+              </span>
+              <span className="inline-block mx-2 text-black">
                 <FaSyncAlt />
               </span>
-              Sync
+              <span className="heading_font text-gray-800">Sync</span>
             </h1>
           </div>
           <div className="image_1 w-[400px] relative top-[2rem]">
-            <img src={loginImg} alt="girl with mobile" className="w-full " />
+            <img
+              src={loginImg}
+              alt="girl with mobile"
+              className="w-full scale-90"
+            />
           </div>
-          <div className="image_1 w-[200px] absolute bottom-0 -right-[6rem]">
+          <div className="image_1 w-[200px] absolute bottom-0 -right-[5rem]">
             <img src={plantImg} alt="girl with mobile" className="w-full" />
           </div>
         </div>
@@ -57,13 +63,13 @@ const ForgotPassword = () => {
           onSubmit={(e) => handleSubmit(e)}
         >
           <div className="mb-5">
-            <h1 className="text-3xl heading_font text-center text-teal-400">
+            <h1 className="heading_font text-3xl text-center text-cyan-600">
               Forgot Password
             </h1>
           </div>
 
           <div className="w-full relative">
-            <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-teal-200">
+            <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-gray-600">
               <MdEmail />
             </span>
             <input
@@ -73,7 +79,7 @@ const ForgotPassword = () => {
               id="email"
               onChange={handleInputChange}
               value={email}
-              className="px-5 py-3 text-[16px] w-full bg-gray-100 outline-none rounded-full bg-opacity-10 placeholder:text-gray-200"
+              className="px-5 py-2 text-[16px] w-full bg-gray-600 outline-none rounded-full bg-opacity-10 placeholder:text-gray-600"
               autoComplete="username"
             />
           </div>
@@ -89,7 +95,7 @@ const ForgotPassword = () => {
 
           <button
             type="submit"
-            className="p-1 pb-2 bg-teal-700 hover:bg-teal-400 transition-all duration-300 text-lg rounded-full outline-none mt-3"
+            className="p-1 bg-cyan-500 hover:bg-cyan-600 transition-all duration-300 text-lg rounded-full outline-none mt-3"
           >
             Submit
           </button>

@@ -96,7 +96,7 @@ const Login = () => {
             </h1>
           </div>
           <div className="w-full relative">
-            <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-cyan-600">
+            <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-gray-600">
               <FaClipboardUser />
             </span>
             <select
@@ -115,7 +115,7 @@ const Login = () => {
           </div>
 
           <div className="w-full relative">
-            <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-cyan-600">
+            <span className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-gray-600">
               <FaUser />
             </span>
             <input
@@ -131,7 +131,7 @@ const Login = () => {
 
           <div className="w-full relative">
             <span
-              className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-cyan-600"
+              className="icon absolute top-[50%] -translate-y-[50%] cursor-pointer right-5 text-xl text-gray-600"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
@@ -158,7 +158,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="p-1 pb-2 bg-cyan-600 hover:bg-cyan-400 transition-all duration-300 text-lg rounded-full outline-none mt-3"
+            className="p-1 pb-2 bg-cyan-500 hover:bg-cyan-600 transition-all duration-300 text-lg rounded-full outline-none mt-3"
           >
             Login
           </button>
@@ -166,7 +166,7 @@ const Login = () => {
           <NavLink to="/register" className={`w-full`}>
             <button
               type="submit"
-              className="p-2 border-2 border-gray-400 bg-gray-200 text-black text-[16px] font-semibold rounded-full outline-none w-full flex items-center justify-center gap-5 hover:bg-gradient-to-l from-red-500 to-green-400 via-yellow-400"
+              className="p-2 bg-black text-white text-lg rounded-full outline-none w-full flex items-center justify-center gap-5 hover:bg-gradient-to-l from-red-500 to-green-400 via-yellow-400 hover:text-black transition-none duration-500"
             >
               {/* Do not have <span className="text-blue-400">Account?</span> */}
               <img
