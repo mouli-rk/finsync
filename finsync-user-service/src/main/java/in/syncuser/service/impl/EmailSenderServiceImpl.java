@@ -93,7 +93,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 				+ "Account Number: "+commonModel.getAccountNumber()+"\r\n"
 				+ "Account Type: "+commonModel.getAccountType()+"\r\n"
 				+ "Account Balance: "+commonModel.getAccountBalance()+"\r\n"
-				+ "Status: "+(commonModel.getStatus()!=0?"ACTIVE":"IN ACTIVE")+"\r\n"
+				+ "Status: "+(commonModel.getStatus()?"ACTIVE":"IN ACTIVE")+"\r\n"
 				+ "Address Details\r\n"
 				+ "DR No: "+commonModel.getDrNo()+"\r\n"
 				+ "Street: "+commonModel.getStreet()+"\r\n"

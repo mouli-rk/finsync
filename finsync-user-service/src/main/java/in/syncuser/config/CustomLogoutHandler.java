@@ -1,7 +1,6 @@
 package in.syncuser.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
@@ -36,7 +35,6 @@ public class CustomLogoutHandler implements LogoutHandler {
 				token.setIsActive(false);
 				tokenRepository.save(token);
 				LoginModel model = new LoginModel();
-				model.setStatus(HttpStatus.OK.value());
 				model.setMessage(FinSyncConstants.SUCCESS);
 				mapper.writeValue(response.getWriter(), model);
 			}
