@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.constants.Role;
+import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.SystemModule;
 import in.syncuser.service.SystemModuleService;
 
@@ -39,16 +40,16 @@ public class SystemModuleController {
 	}
 	
 	@GetMapping("/fetchModulesByRoleType")
-	public ResponseEntity<List<SystemModule>> fetchModulesByRoleType(@RequestParam("role") String role) {
+	public ResponseEntity<List<RoleApiDTO>> fetchModulesByRoleType(@RequestParam("role") String role) {
 		try {
 			Role roleType = Role.valueOf(role);
-			List<SystemModule> modules = systemModuleService.fetchModulesByRoleType(roleType);
+			List<RoleApiDTO> modules = systemModuleService.fetchModulesByRoleType(roleType);
 			if (modules != null && !modules.isEmpty()) {
-				return new ResponseEntity<List<SystemModule>>(modules, HttpStatus.OK);
+				return new ResponseEntity<List<RoleApiDTO>>(modules, HttpStatus.OK);
 			}
-			return new ResponseEntity<List<SystemModule>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<RoleApiDTO>>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
-			return new ResponseEntity<List<SystemModule>>(HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<List<RoleApiDTO>>(HttpStatus.METHOD_NOT_ALLOWED);
 		}
 	}
 

@@ -10,7 +10,7 @@ import in.syncuser.entity.SystemModule;
 
 public interface SystemModuleRepository extends JpaRepository<SystemModule, Integer> {
 
-	@Query("SELECT module FROM SystemModule module JOIN module.modulePrivilege privilege JOIN privilege.roleType roleType WHERE roleType.role = ?1")
-	public List<SystemModule> findModulesByRoleType(Role roleType);
+	@Query("SELECT sysmodule.module FROM SystemModule sysmodule JOIN sysmodule.modulePrivilege privilege JOIN privilege.roleType roleType WHERE roleType.role = ?1")
+	public List<String> findModulesByRoleType(Role roleType);
 
 }

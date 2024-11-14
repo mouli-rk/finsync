@@ -43,7 +43,7 @@ public class SecurityConfig {
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-				.logout(logout -> logout.logoutUrl("/logout").addLogoutHandler(logoutHandler)).build();
+				.logout(logout -> logout.logoutUrl("api/auth/logout").addLogoutHandler(logoutHandler)).build();
 	}
 
 	@Bean

@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import in.syncuser.config.UserAuthDetails;
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.constants.Role;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.dto.UserApiDTO;
-import in.syncuser.model.UserAuthDetails;
 import in.syncuser.repository.RoleRepository;
 import in.syncuser.repository.UserRepository;
 
