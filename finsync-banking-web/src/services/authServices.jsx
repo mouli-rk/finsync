@@ -16,7 +16,9 @@ export const loginUser = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/auth/authenticate`,
-      userData
+      userData, {
+        withCredentials: true, // Required to send cookies
+      }
     );
     if (response.status === 200) {
       toast.success("User Login Success");
