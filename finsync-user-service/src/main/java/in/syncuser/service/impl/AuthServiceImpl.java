@@ -3,6 +3,8 @@ package in.syncuser.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,7 +22,6 @@ import in.syncuser.model.LoginModel;
 import in.syncuser.repository.TokenRepository;
 import in.syncuser.repository.UserRepository;
 import in.syncuser.service.EmailSenderService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import in.syncuser.service.AuthService;
 
@@ -76,10 +77,10 @@ public class AuthServiceImpl implements AuthService {
 			UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
 			apiModel.setUsername(apiRequest.getUsername());
 			apiModel.setRole(apiRequest.getRole());
-			apiModel.setFirstName(user.getFirstName());
+			/*apiModel.setFirstName(user.getFirstName());
 			apiModel.setLastName(user.getLastName());
 			apiModel.setEmail(user.getEmail());
-			apiModel.setPhoneNo(user.getPhoneNo());
+			apiModel.setPhoneNo(user.getPhoneNo());*/
 			apiModel.setUserId(user.getId());
 			/*
 			 * EmailDetails mailParmas = emailSenderService.configureEmailParams(model,
@@ -98,15 +99,10 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	private void configureCookies(String jwtToken, HttpServletResponse httpResponse) {
-		Cookie cookie = new Cookie("Bearer", jwtToken);
 		int cookieExpiry = Integer.parseInt(cookieAge);
-		cookie.setHttpOnly(true);
-		cookie.setSecure(true);
-		cookie.setPath("/");
-		cookie.setMaxAge(cookieExpiry * 60);
-		
-		httpResponse.setHeader("Set-Cookie",cookie + "; SameSite=None; Secure");
-		httpResponse.addCookie(cookie);
+		ResponseCookie cookie = ResponseCookie.from("Bearer", jwtToken).sameSite("None").secure(true).httpOnly(true)
+				.path("/").maxAge(cookieExpiry).build();
+		httpResponse.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 
 	@Override
