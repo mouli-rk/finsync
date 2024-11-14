@@ -124,7 +124,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	
 	@Override
 	public String configureResetPasswordMsgBody(CommonModel model) {
-	    String jwtToken = jwtUtil.generateJwtToken(model.getUsername(), 10);
+	    String jwtToken = jwtUtil.generateJwtToken(model.getUsername(), null, 10);
 	    String redirectUrl = "http://localhost:3000/api/reset/" + jwtToken;        
 	    
 	    String msgBody = "<!DOCTYPE html>\r\n"

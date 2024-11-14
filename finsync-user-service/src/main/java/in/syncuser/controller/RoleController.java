@@ -54,7 +54,7 @@ public class RoleController {
 	}
 	
 	@GetMapping("/fetchById")
-	@PreAuthorize("hasAuthority('MANAGER')")
+	@PreAuthorize("hasAuthority('BANK')")
 	public ResponseEntity<?> fetchById(@RequestParam("id") Integer id) {
 		GrantedAuthority role = roleService.findById(id);
 		if (role != null)

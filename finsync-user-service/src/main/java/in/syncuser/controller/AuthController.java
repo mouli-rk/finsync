@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,27 +26,32 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-/*@CrossOrigin(origins = { "http://localhost:3000" })*/
+/* @CrossOrigin(origins = { "http://localhost:3000" }) */
 public class AuthController {
 
 	private final AuthService authService;
-	
+
 	@PostMapping("/authenticate")
 	public ResponseEntity<CommonModel> authenticate(@RequestBody LoginModel apiRequest, HttpServletResponse response) {
-		CommonModel apiResponse = authService.authenticate(apiRequest, response);
-		if(apiResponse!=null) {
-			return new ResponseEntity<CommonModel>(apiResponse, HttpStatus.OK);
+		try {
+			CommonModel apiResponse = authService.authenticate(apiRequest, response);
+			if (apiResponse != null) {
+				return new ResponseEntity<CommonModel>(apiResponse, HttpStatus.OK);
+			}
+			return new ResponseEntity<CommonModel>(HttpStatus.NO_CONTENT);
+		} catch (AccessDeniedException e) {
+			return new ResponseEntity<CommonModel>(HttpStatus.UNAUTHORIZED);
 		}
-		return new ResponseEntity<CommonModel>(HttpStatus.UNAUTHORIZED);
 	}
-	
+
 	@GetMapping("/fetchCurrentModulePrivileges")
-	//@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
+	@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
 	public ResponseEntity<?> fetchCurrentModulePrivileges() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		//List<ModulePrivilege> privileges = modulePrivilegeService.fetchAllModulePrivileges();
-		//String authorities = RoleContext.getCurrentrole();
+		// List<ModulePrivilege> privileges =
+		// modulePrivilegeService.fetchAllModulePrivileges();
+		// String authorities = RoleContext.getCurrentrole();
 		if (authorities != null)
 			return new ResponseEntity<Collection<? extends GrantedAuthority>>(authorities, HttpStatus.OK);
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
@@ -53,7 +60,7 @@ public class AuthController {
 	@PostMapping("/resetLink")
 	public ResponseEntity<String> sendResetPassword(@RequestBody LoginModel login) {
 		String apiResponse = authService.sendResetPassword(login);
-		if(apiResponse!=null && !apiResponse.isBlank()) {
+		if (apiResponse != null && !apiResponse.isBlank()) {
 			return new ResponseEntity<String>(apiResponse, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
@@ -63,11 +70,12 @@ public class AuthController {
 	public String resetPassword(@RequestBody LoginModel login) {
 		return authService.resetPassword(login);
 	}
+
 	@GetMapping("/secureAllPasswords")
 	public Boolean secureAllPasswords() {
 		return authService.secureAllPasswords();
 	}
-	
+
 	@GetMapping("/getJWTGeneratedToken")
 	public String getJWTGeneratedToken() {
 		return JwtUtils.getJwtToken();
