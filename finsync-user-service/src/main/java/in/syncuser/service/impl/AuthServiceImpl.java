@@ -104,6 +104,8 @@ public class AuthServiceImpl implements AuthService {
 		cookie.setSecure(true);
 		cookie.setPath("/");
 		cookie.setMaxAge(cookieExpiry * 60);
+		
+		httpResponse.setHeader("Set-Cookie",cookie + "; SameSite=None; Secure");
 		httpResponse.addCookie(cookie);
 	}
 

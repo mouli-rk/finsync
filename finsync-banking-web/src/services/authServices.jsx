@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const authToken = Cookies.get("token");
+const authToken = Cookies.get("Bearer")
 
 export const validEmail = (email) => {
   return email.match(
@@ -33,14 +33,16 @@ export const loginUser = async (userData) => {
 
 export const logoutUser = async () => {
   try {
-    const response = await axios.get(`${BACKEND_URL}/logout`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    if (response.status === 200) {
-      toast.success(response.data);
-    }
+    // const response = await axios.get(`${BACKEND_URL}/logout`, {
+    //   headers: {
+    //     Authorization: `Bearer ${authToken}`,
+    //   },
+    // });
+    // if (response.status === 200) {
+    //   toast.success(response.data);
+    // }
+
+    console.log("cookie data",authToken);
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||

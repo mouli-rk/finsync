@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../services/authServices";
 import {
   SET_ISLOGGEDIN,
-  SET_JWTTOKEN,
   SET_NAME,
 } from "../../../redux/reducers/AuthSlice/authSlice";
 import { FaClipboardUser } from "react-icons/fa6";
@@ -45,7 +44,6 @@ const Login = () => {
       const Data = await loginUser(loginDetails);
       dispatch(SET_ISLOGGEDIN(true));
       dispatch(SET_NAME(Data));
-      dispatch(SET_JWTTOKEN(Data.jwtToken));
       navigate("/dashboard");
     } catch (error) {
       toast.error(error.message);
@@ -101,16 +99,17 @@ const Login = () => {
             </span>
             <select
               name="role"
-              className="px-5 py-2 text-[16px] w-full bg-gray-600 outline-none rounded-full bg-opacity-10 placeholder:text-gray-500"
+              className="px-4 py-2 text-[16px] w-full bg-gray-600 outline-none rounded-full bg-opacity-10 placeholder:text-gray-500"
               onChange={handleInputChange}
               autoComplete="username"
             >
               <option value="">
                 select role
               </option>
-              <option value="Admin">Admin</option>
-              <option value="Bank Manager">Bank Manager</option>
-              <option value="Customer">Customer</option>
+              <option value="ADMIN">Admin</option>
+              <option value="BANK">Bank</option>
+              <option value="EMPLOYEE">Employee</option>
+              <option value="USER">Customer</option>
             </select>
           </div>
 
