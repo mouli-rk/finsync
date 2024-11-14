@@ -22,6 +22,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import in.syncuser.constants.Role;
 import in.syncuser.repository.TokenRepository;
 
 @Service
@@ -48,9 +49,10 @@ public class JwtUtils {
 		return null;
 	}
 
-	public String generateJwtToken(String username, Integer jwtExpirationMins) throws InvalidKeyException {
+	public String generateJwtToken(String username, Role role, Integer jwtExpirationMins) throws InvalidKeyException {
 		Map<String, Object> claims = new HashMap<>();
-		jwtToken = Jwts.builder().claims().add(claims).subject(username).issuedAt(new Date(System.currentTimeMillis()))
+		jwtToken = Jwts.builder().claims().add(claims).subject(username).add("role", role)
+				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(new Date(System.currentTimeMillis() + jwtExpirationMins * 60 * 1000)).and().signWith(key())
 				.compact();
 		logger.debug("JWT Token Generated : {}", jwtToken);
@@ -68,6 +70,11 @@ public class JwtUtils {
 	private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
 		final Claims claims = extractAllClaims(token);
 		return claimResolver.apply(claims);
+	}
+	
+	public String extractClaim(String token, String claimKey) {
+		return Jwts.parser().verifyWith((SecretKey) key()).build().parseSignedClaims(token).getPayload().get(claimKey,
+				String.class);
 	}
 
 	private Claims extractAllClaims(String token) {

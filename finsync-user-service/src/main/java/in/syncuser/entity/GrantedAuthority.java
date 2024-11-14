@@ -34,9 +34,18 @@ public class GrantedAuthority {
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
 
+	
+	
 	public GrantedAuthority(User user, Role role) {
 		super();
 		this.user = user;
+		this.role = role;
+	}
+
+
+
+	public GrantedAuthority(Role role) {
+		super();
 		this.role = role;
 	}
 	

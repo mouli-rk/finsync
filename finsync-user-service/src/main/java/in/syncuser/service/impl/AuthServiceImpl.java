@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,12 +14,15 @@ import org.springframework.stereotype.Service;
 
 import in.syncuser.config.JwtUtils;
 import in.syncuser.constants.FinSyncConstants;
+import in.syncuser.constants.Role;
 import in.syncuser.dto.UserApiDTO;
+import in.syncuser.entity.GrantedAuthority;
 import in.syncuser.entity.Token;
 import in.syncuser.entity.User;
 import in.syncuser.model.CommonModel;
 import in.syncuser.model.EmailDetails;
 import in.syncuser.model.LoginModel;
+import in.syncuser.repository.RoleRepository;
 import in.syncuser.repository.TokenRepository;
 import in.syncuser.repository.UserRepository;
 import in.syncuser.service.EmailSenderService;
@@ -33,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final AuthenticationManager authManager;
 	private final TokenRepository tokenRepository;
+	private final RoleRepository roleRepository;
 	private final JwtUtils jwtUtils;
 	
 	@Value("${spring.application.cookieAge}")
@@ -42,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
 	private String jwtExpirationMins;
 
 	public AuthServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService,
-			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, TokenRepository tokenRepository, JwtUtils jwtUtils) {
+			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, TokenRepository tokenRepository, RoleRepository roleRepository, JwtUtils jwtUtils) {
 		super();
 		this.userRepository = userRepository;
 		this.emailSenderService = emailSenderService;
@@ -50,26 +55,29 @@ public class AuthServiceImpl implements AuthService {
 		this.authManager = authManager;
 		this.jwtUtils = jwtUtils;
 		this.tokenRepository = tokenRepository;
+		this.roleRepository = roleRepository;
 	}
 
 	@Override
 	public CommonModel authenticate(LoginModel apiRequest, HttpServletResponse httpResponse) {
-		//RoleContext.setCurrentRole(apiRequest.getRole());
-		//SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(apiRequest.getRole());
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-				apiRequest.getUsername(), apiRequest.getPassword());
-		Authentication authentication = authManager.authenticate(authToken);
-		//authentication.getAuthorities().removeIf(role -> !role.equals(grantedAuthority)); 
 		CommonModel apiModel = new CommonModel();
-		if (authentication.isAuthenticated()) {
-			Integer jwtExpiration = Integer.parseInt(jwtExpirationMins);
-			String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), jwtExpiration);
-			configureLoginDetails(apiModel, apiRequest, jwtToken);
-			configureToken(apiModel.getUserId(), jwtToken);
-			configureCookies(jwtToken, httpResponse);
+		Role role = Role.valueOf(apiRequest.getRole());
+		List<GrantedAuthority> roles = roleRepository.findRequiredRolesByUsername(apiRequest.getUsername(), role);
+		if (roles != null && !roles.isEmpty()) {
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+					apiRequest.getUsername(), apiRequest.getPassword());
+			Authentication authentication = authManager.authenticate(authToken);
+			if (authentication.isAuthenticated()) {
+				Integer jwtExpiration = Integer.parseInt(jwtExpirationMins);
+				String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), role, jwtExpiration);
+				configureLoginDetails(apiModel, apiRequest, jwtToken);
+				configureToken(apiModel.getUserId(), jwtToken);
+				configureCookies(jwtToken, httpResponse);
+				return apiModel;
+			}
 			return apiModel;
 		}
-		return apiModel;
+		throw new AccessDeniedException(FinSyncConstants.UNAUTHORIZED);
 	}
 	
 	private void configureLoginDetails(CommonModel apiModel, LoginModel apiRequest, String jwtToken) {
