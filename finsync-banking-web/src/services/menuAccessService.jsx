@@ -9,8 +9,7 @@ export const menuAccess = async (role) => {
     const menu = await axios.get(
       `${BACKEND_URL}/system/module/fetchModulesByRoleType?role=${role}`,
     );
-    console.log(menu.data)
-    return menu.data.map((item) => item.module);
+    return menu.data;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
