@@ -39,7 +39,7 @@ public class SecurityConfig {
 						customizer -> customizer.disable())
 				.authorizeHttpRequests(
 						request -> request.requestMatchers("api/auth/authenticate", "api/auth/send/resetLink",
-								"api/auth/reset", "app/health").permitAll().anyRequest().authenticated())
+								"api/auth/reset", "system/module/fetchModulesByRoleType").permitAll().anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

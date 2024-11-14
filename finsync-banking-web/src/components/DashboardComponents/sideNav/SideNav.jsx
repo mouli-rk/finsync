@@ -7,8 +7,9 @@ import { NavLink } from "react-router-dom";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logoutUser } from "../../../services/authServices";
+import { menuAccess } from "../../../services/menuAccessService";
 
 const activeLink = ({ isActive }) => {
   return isActive ? `${styles.active} ${styles.link}` : `${styles.link}`;
@@ -16,10 +17,17 @@ const activeLink = ({ isActive }) => {
 
 const SideNav = ({ userName, userRole }) => {
   const [show, setShow] = useState(false);
+  const [menu, setMenu] = useState(null);
 
   const handleLogout = async () => {
     await logoutUser();
   };
+
+  useEffect(() => {
+    const menuData = menuAccess(userRole);
+    // console.log(menuData);
+    // setMenu(menuData);
+  }, []);
 
   return (
     <div
