@@ -1,4 +1,4 @@
-package in.syncuser.model;
+package in.syncuser.config;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

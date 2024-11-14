@@ -15,6 +15,7 @@ public class RoleApiDTO {
 	private Integer id;
 	private Role role;
 	private Long userId;
+	private String module;
 	
 	public RoleApiDTO(Integer id, Role role) {
 		super();
