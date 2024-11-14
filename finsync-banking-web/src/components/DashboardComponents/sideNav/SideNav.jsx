@@ -3,31 +3,22 @@ import { FaCircleUser } from "react-icons/fa6";
 // import { FaSyncAlt } from "react-icons/fa";
 import { sideNavLinks } from "../../../data";
 import styles from "./SideNav.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { logoutUser } from "../../../services/authServices";
 
 const activeLink = ({ isActive }) => {
   return isActive ? `${styles.active} ${styles.link}` : `${styles.link}`;
 };
 
-const SideNav = ({ userName, userEmail }) => {
+const SideNav = ({ userName, userRole }) => {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    localStorage.clear();
-    toast.success("user Logged Out Successfully")
-    navigate("/");
-  };
-
-  const emailshortener = (email) => {
-    const shortedEmail =
-      email.length < 20 ? email : email.slice(0, 20).concat("...");
-    return shortedEmail;
+    await logoutUser();
   };
 
   return (
@@ -70,9 +61,7 @@ const SideNav = ({ userName, userEmail }) => {
             <h1 className="heading_font text-[14px] text-nowrap">
               {userName || "User Name"}
             </h1>
-            <span className="text-[11px] font-normal">
-              {emailshortener(userEmail || "User123@gmail.com")}
-            </span>
+            <span className="text-[11px] font-normal">{userRole}</span>
           </div>
         </div>
 
@@ -80,9 +69,7 @@ const SideNav = ({ userName, userEmail }) => {
           {sideNavLinks.map((navlink, i) => {
             return (
               <NavLink key={i} to={navlink.link} className={activeLink}>
-                <span className="text-[25px]">
-                  {navlink.icon}
-                </span>
+                <span className="text-[25px]">{navlink.icon}</span>
                 <div
                   className={`${
                     show

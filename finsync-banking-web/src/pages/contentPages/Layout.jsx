@@ -7,7 +7,7 @@ const Layout = () => {
       <div className="navbar w-full bg-transparent backdrop-blur-md sticky top-0 left-0 z-50">
         <Navbar />
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 px-20">
         <Outlet />
       </div>
     </div>

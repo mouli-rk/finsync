@@ -2,19 +2,19 @@ import { Outlet } from "react-router-dom";
 import SideNav from "../../components/DashboardComponents/sideNav/SideNav";
 import { useSelector } from "react-redux";
 import {
-  selectEmail,
+  selectRole,
   selectName,
 } from "../../redux/reducers/AuthSlice/authSlice";
 
 const Layout = () => {
   const userName = useSelector(selectName);
-  const userEmail = useSelector(selectEmail);
+  const userRole = useSelector(selectRole);
 
   return (
     <div className="h-screen flex relative bg-gray-500/60">
 
       <div className="h-full sticky top-0 transition-all duration-500 z-50">
-        <SideNav userName={userName} userEmail={userEmail} />
+        <SideNav userName={userName} userRole={userRole} />
       </div>
       <div className="w-full relative z-10 overflow-y-auto">
         <Outlet />
