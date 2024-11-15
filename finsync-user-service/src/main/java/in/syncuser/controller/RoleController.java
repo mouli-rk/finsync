@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.syncuser.constants.FinSyncConstants;
+import in.syncuser.constants.Role;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
 import in.syncuser.entity.RoleType;
@@ -64,7 +65,7 @@ public class RoleController {
 	
 	@GetMapping("/findByRole")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<?> findByRole(@RequestParam("role") String name) {
+	public ResponseEntity<?> findByRole(@RequestParam("role") Role name) {
 		GrantedAuthority role = roleService.findByRole(name);
 		if (role != null)
 			return new ResponseEntity<>(role, HttpStatus.OK);

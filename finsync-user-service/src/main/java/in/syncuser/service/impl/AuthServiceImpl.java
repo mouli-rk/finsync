@@ -45,6 +45,9 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Value("${spring.application.jwtExpirationMins}")
 	private String jwtExpirationMins;
+	
+	@Value("${spring.application.jwtSalt}")
+	private String jwtSalt;
 
 	public AuthServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService,
 			BCryptPasswordEncoder passwordEncoder, AuthenticationManager authManager, TokenRepository tokenRepository, RoleRepository roleRepository, JwtUtils jwtUtils) {
@@ -85,6 +88,7 @@ public class AuthServiceImpl implements AuthService {
 			UserApiDTO user = userRepository.fetchUserDetails(apiRequest.getUsername()).orElse(null);
 			apiModel.setUsername(apiRequest.getUsername());
 			apiModel.setRole(apiRequest.getRole());
+			apiModel.setJwtToken(jwtToken);
 			/*apiModel.setFirstName(user.getFirstName());
 			apiModel.setLastName(user.getLastName());
 			apiModel.setEmail(user.getEmail());

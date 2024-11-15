@@ -30,7 +30,7 @@ public class SecurityConfig {
 
 	private final UserDetailsService userDetailsService;
 	private final JwtFilter jwtFilter;
-	private final CustomLogoutHandler logoutHandler;
+	private final SignoutHandler logoutHandler;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -39,11 +39,11 @@ public class SecurityConfig {
 						customizer -> customizer.disable())
 				.authorizeHttpRequests(
 						request -> request.requestMatchers("api/auth/authenticate", "api/auth/send/resetLink",
-								"api/auth/reset", "app/health").permitAll().anyRequest().authenticated())
+								"api/auth/reset", "system/module/fetchModulesByRoleType").permitAll().anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-				.logout(logout -> logout.logoutUrl("api/auth/logout").addLogoutHandler(logoutHandler)).build();
+				.logout(logout -> logout.logoutUrl("/api/auth/logout").addLogoutHandler(logoutHandler)).build();
 	}
 
 	@Bean

@@ -2,10 +2,7 @@ package in.syncuser.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
-import in.syncuser.constants.Role;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,22 +28,18 @@ public class GrantedAuthority {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@Enumerated(value = EnumType.STRING)
-	private Role role;
+	@ManyToOne
+	private RoleType roleType;
 
-	
-	
-	public GrantedAuthority(User user, Role role) {
+	public GrantedAuthority(User user, RoleType roleType) {
 		super();
 		this.user = user;
-		this.role = role;
+		this.roleType = roleType;
 	}
 
-
-
-	public GrantedAuthority(Role role) {
+	public GrantedAuthority(RoleType roleType) {
 		super();
-		this.role = role;
+		this.roleType = roleType;
 	}
 	
 }

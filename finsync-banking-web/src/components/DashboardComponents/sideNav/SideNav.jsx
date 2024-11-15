@@ -7,8 +7,9 @@ import { NavLink } from "react-router-dom";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logoutUser } from "../../../services/authServices";
+import { menuAccess } from "../../../services/menuAccessService";
 
 const activeLink = ({ isActive }) => {
   return isActive ? `${styles.active} ${styles.link}` : `${styles.link}`;
@@ -16,10 +17,19 @@ const activeLink = ({ isActive }) => {
 
 const SideNav = ({ userName, userRole }) => {
   const [show, setShow] = useState(false);
+  const [menu, setMenu] = useState(null);
 
   const handleLogout = async () => {
     await logoutUser();
   };
+
+  useEffect(() => {
+    const getMenu = async () => {
+      const menuData = await menuAccess(userRole);
+      setMenu(menuData);
+    };
+    getMenu();
+  }, [userRole]);
 
   return (
     <div
@@ -66,18 +76,18 @@ const SideNav = ({ userName, userRole }) => {
         </div>
 
         <div className="scroll_bar overflow-y-auto px-2 flex flex-col h-[300px] mt-5">
-          {sideNavLinks.map((navlink, i) => {
+          {menu?.map((navlink, i) => {
             return (
-              <NavLink key={i} to={navlink.link} className={activeLink}>
-                <span className="text-[25px]">{navlink.icon}</span>
+              <NavLink key={i} to={`${i}#`} className={activeLink}>
+                {/* <span className="text-[25px]">{navlink.icon}</span> */}
                 <div
                   className={`${
                     show
                       ? `absolute top-10 left-[80px] rounded-md px-4 py-2 bg-gray-500 hidden transition-all duration-500 ${styles.link_text} text-white font-medium`
                       : "static"
-                  } font-light flex`}
+                  } font-normal flex`}
                 >
-                  {navlink.title}
+                  {navlink.module}
                   {show && (
                     <div
                       className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-gray-500 rotate-45 -z-10`}

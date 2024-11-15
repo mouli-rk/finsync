@@ -33,6 +33,9 @@ public class RoleType {
 	@Column(unique = true)
 	private Role role;
 	
+	@OneToMany(mappedBy = "roleType")
+	private List<GrantedAuthority> roles;
+	
 	@OneToMany(mappedBy = "roleType", fetch = FetchType.LAZY)
 	private List<ModulePrivilege> modulePrivilege;
 

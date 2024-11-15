@@ -52,6 +52,19 @@ public class SystemModuleController {
 			return new ResponseEntity<List<RoleApiDTO>>(HttpStatus.METHOD_NOT_ALLOWED);
 		}
 	}
+	
+	@GetMapping("/findModulesByUsername")
+	public ResponseEntity<List<RoleApiDTO>> findModulesByUsername(@RequestParam("username") String username) {
+		try {
+			List<RoleApiDTO> modules = systemModuleService.findModulesByUsername(username);
+			if (modules != null && !modules.isEmpty()) {
+				return new ResponseEntity<List<RoleApiDTO>>(modules, HttpStatus.OK);
+			}
+			return new ResponseEntity<List<RoleApiDTO>>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<List<RoleApiDTO>>(HttpStatus.METHOD_NOT_ALLOWED);
+		}
+	}
 
 	@GetMapping("/fetchAll")
 	public ResponseEntity<List<SystemModule>> fetchAll() {

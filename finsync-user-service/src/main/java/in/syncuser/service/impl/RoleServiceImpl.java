@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.syncuser.constants.Role;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
 import in.syncuser.entity.RoleType;
@@ -14,20 +15,20 @@ import in.syncuser.repository.RoleTypeRepository;
 import in.syncuser.service.RoleService;
 
 @Service
-public class RoleServiceImpl implements RoleService{
-	
+public class RoleServiceImpl implements RoleService {
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	@Autowired
 	private RoleTypeRepository roleTypeRepository;
-	
+
 	@Override
 	public GrantedAuthority insertRole(RoleApiDTO apiModel) {
-		GrantedAuthority role = new GrantedAuthority(new User(apiModel.getUserId()), apiModel.getRole());
+		GrantedAuthority role = new GrantedAuthority(new User(apiModel.getUserId()), new RoleType(apiModel.getId()));
 		return roleRepository.save(role);
 	}
-	
+
 	@Override
 	public RoleType insertRoleType(RoleApiDTO apiModel) {
 		RoleType roleType = new RoleType(apiModel.getRole());
@@ -41,23 +42,23 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public GrantedAuthority findByRole(String role) {
+	public GrantedAuthority findByRole(Role role) {
 		// TODO Auto-generated method stub
 		return roleRepository.findByRole(role);
 	}
-	
+
 	@Override
-	public List<RoleApiDTO> fetchByUID(Long id){
+	public List<RoleApiDTO> fetchByUID(Long id) {
 		return roleRepository.findByUserId(id);
 	}
-	
+
 	@Override
-	public List<GrantedAuthority> fetchAll(){
+	public List<GrantedAuthority> fetchAll() {
 		return roleRepository.findAll();
 	}
-	
+
 	@Override
-	public List<RoleType> fetchAllRoleTypes(){
+	public List<RoleType> fetchAllRoleTypes() {
 		return roleTypeRepository.findAll();
 	}
 
