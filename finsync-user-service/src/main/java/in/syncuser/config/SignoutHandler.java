@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class CustomLogoutHandler implements LogoutHandler {
+public class SignoutHandler implements LogoutHandler {
 
 	@Autowired
 	private JwtUtils jwtUtils;

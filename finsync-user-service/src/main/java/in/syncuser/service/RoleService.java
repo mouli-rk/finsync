@@ -2,6 +2,7 @@ package in.syncuser.service;
 
 import java.util.List;
 
+import in.syncuser.constants.Role;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.GrantedAuthority;
 import in.syncuser.entity.RoleType;
@@ -9,8 +10,6 @@ import in.syncuser.entity.RoleType;
 public interface RoleService {
 	
 	public GrantedAuthority findById(Integer id);
-
-	public GrantedAuthority findByRole(String username);
 
 	List<GrantedAuthority> fetchAll();
 
@@ -21,5 +20,7 @@ public interface RoleService {
 	RoleType insertRoleType(RoleApiDTO apiModel);
 	
 	public List<RoleType> fetchAllRoleTypes();
+
+	GrantedAuthority findByRole(Role role);
 
 }

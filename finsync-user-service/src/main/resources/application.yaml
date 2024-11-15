@@ -2,6 +2,7 @@ spring:
   application:
     name: finsync-user-service
     jwtSecret: U29tZSBzYW1wbGUgdGV4dCB0byBkZW1vbnN0cmF0ZSBhIHJhbmdlIGVuY29kaW5nIHN0cmluZyBmb3JtYXRzLg==
+    jwtSalt: ZW1vbnN0cmF0ZSBhIH
     jwtExpirationMins: 180
     cookieAge: 180
   #config:

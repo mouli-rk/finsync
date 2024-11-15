@@ -30,7 +30,7 @@ public class SecurityConfig {
 
 	private final UserDetailsService userDetailsService;
 	private final JwtFilter jwtFilter;
-	private final CustomLogoutHandler logoutHandler;
+	private final SignoutHandler logoutHandler;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -43,7 +43,7 @@ public class SecurityConfig {
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-				.logout(logout -> logout.logoutUrl("api/auth/logout").addLogoutHandler(logoutHandler)).build();
+				.logout(logout -> logout.logoutUrl("/api/auth/logout").addLogoutHandler(logoutHandler)).build();
 	}
 
 	@Bean
