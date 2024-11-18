@@ -37,8 +37,8 @@ public class SystemModuleServiceImpl implements SystemModuleService {
 	}
 	
 	@Override
-	public List<RoleApiDTO> findModulesByUsername(String username) {
-		List<String> modules = systemModuleRepository.findModulesByUsername(username);
+	public List<RoleApiDTO> findModulesByUsernameAndRole(String username, Role role) {
+		List<String> modules = systemModuleRepository.findModulesByUsernameAndRole(username, role);
 		List<RoleApiDTO> systemModules = modules.stream().map(module -> {
 			RoleApiDTO dto = new RoleApiDTO();
 			dto.setModule(module);

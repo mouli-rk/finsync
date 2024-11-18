@@ -14,6 +14,6 @@ public interface SystemModuleService {
 
 	List<RoleApiDTO> fetchModulesByRoleType(Role roleType);
 
-	List<RoleApiDTO> findModulesByUsername(String username);
+	List<RoleApiDTO> findModulesByUsernameAndRole(String username, Role role);
 
 }

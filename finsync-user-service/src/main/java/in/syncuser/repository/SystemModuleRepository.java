@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import in.syncuser.constants.Role;
 import in.syncuser.entity.SystemModule;
@@ -13,6 +14,9 @@ public interface SystemModuleRepository extends JpaRepository<SystemModule, Inte
 	@Query("SELECT sysmodule.module FROM SystemModule sysmodule JOIN sysmodule.modulePrivilege privilege JOIN privilege.roleType roleType WHERE roleType.role = ?1")
 	public List<String> findModulesByRoleType(Role roleType);
 
-	@Query("SELECT systemModule.module FROM User user JOIN user.roles roles JOIN roles.roleType roleType JOIN roleType.modulePrivilege JOIN modulePrivilege.systemModule systemModule WHERE user.username = ?1")
-	public List<String> findModulesByUsername(String username);
+	@Query("""
+			SELECT systemModule.module FROM User user JOIN user.roles roles JOIN roles.roleType roleType JOIN roleType.modulePrivilege 
+			JOIN modulePrivilege.systemModule systemModule WHERE user.username = :username AND  roleType.role = :role
+			""")
+	public List<String> findModulesByUsernameAndRole(@Param("username") String username, @Param("role") Role role);
 }
