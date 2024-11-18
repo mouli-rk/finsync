@@ -53,10 +53,11 @@ public class SystemModuleController {
 		}
 	}
 	
-	@GetMapping("/findModulesByUsername")
-	public ResponseEntity<List<RoleApiDTO>> findModulesByUsername(@RequestParam("username") String username) {
+	@GetMapping("/findModulesByUsernameAndRole")
+	public ResponseEntity<List<RoleApiDTO>> findModulesByUsernameAndRole(@RequestParam("username") String username, @RequestParam("role") String role) {
 		try {
-			List<RoleApiDTO> modules = systemModuleService.findModulesByUsername(username);
+			Role roleType = Role.valueOf(role);
+			List<RoleApiDTO> modules = systemModuleService.findModulesByUsernameAndRole(username, roleType);
 			if (modules != null && !modules.isEmpty()) {
 				return new ResponseEntity<List<RoleApiDTO>>(modules, HttpStatus.OK);
 			}

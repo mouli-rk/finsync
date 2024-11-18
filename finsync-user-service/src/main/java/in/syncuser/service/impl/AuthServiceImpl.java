@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
 				String jwtToken = jwtUtils.generateJwtToken(apiRequest.getUsername(), role, jwtExpiration);
 				configureLoginDetails(apiModel, apiRequest, jwtToken);
 				configureToken(apiModel.getUserId(), jwtToken);
-				configureCookies(jwtToken, httpResponse);
+				/*configureCookies("Bearer", jwtToken, httpResponse);*/
 				return apiModel;
 			}
 			return apiModel;
@@ -110,9 +110,9 @@ public class AuthServiceImpl implements AuthService {
 		tokenRepository.save(token);
 	}
 
-	private void configureCookies(String jwtToken, HttpServletResponse httpResponse) {
+	public void configureCookie(String name, String jwtToken, HttpServletResponse httpResponse) {
 		int cookieExpiry = Integer.parseInt(cookieAge);
-		ResponseCookie cookie = ResponseCookie.from("Bearer", jwtToken).sameSite("None").secure(true).httpOnly(true)
+		ResponseCookie cookie = ResponseCookie.from(name, jwtToken).sameSite("None").secure(true).httpOnly(true)
 				.path("/").maxAge(cookieExpiry).build();
 		httpResponse.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
