@@ -42,6 +42,8 @@ public class User extends BaseEntity{
 	
 	private String password;
 	
+	private Boolean status;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Address address;
 	

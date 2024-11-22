@@ -22,4 +22,6 @@ public interface UserService {
 
 	List<UserDTO> findByAllName(String name);
 
+	List<UserDTO> loadUserGrid(Integer id, Boolean status);
+
 }

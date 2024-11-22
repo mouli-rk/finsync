@@ -26,11 +26,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 */
 
 	@Query("SELECT u.id AS id, u.code AS code, u.firstName AS firstName FROM User u "
-			+ "WHERE (:code IS NULL OR :code = '' OR u.code LIKE %:code%)")
+			+ "WHERE (:code IS NULL OR u.code LIKE %:code%)")
 	public List<UserDTO> findByCode(@Param("code") String code);
 
 	@Query("SELECT u.id AS id, u.firstName AS firstName, u.fullName AS fullName FROM User u "
-			+ "WHERE (:name IS NULL OR :name = '' OR u.firstName LIKE %:name% OR u.lastName LIKE %:name% OR u.fullName LIKE %:name%)")
+			+ "WHERE (:name IS NULL OR u.firstName LIKE %:name% OR u.lastName LIKE %:name% OR u.fullName LIKE %:name%)")
 	public List<UserDTO> findByAllName(@Param("name") String name);
+
+	@Query("SELECT u.id AS id, u.code AS code, u.firstName AS firstName, u.lastName AS lastName, u.phoneNo AS phoneNo, "
+			+ "u.status as status FROM User u WHERE ((:id IS NULL OR u.id = :id) AND (:status IS NULL OR u.status = :status))")
+	public List<UserDTO> loadUserGrid(@Param("id") Integer id, @Param("status") Boolean status);
 
 }

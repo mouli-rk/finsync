@@ -38,8 +38,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public CommonModel createUser(CommonModel userModel) {
-		City city = cityRepository.findById(userModel.getCityId())
-	            .orElseThrow();
+		City city = cityRepository.findById(userModel.getCityId()).orElseThrow();
 		Address address = new Address(userModel.getDrNo(), userModel.getStreet(), userModel.getLandmark(),
 				userModel.getPincode(), city);
 		address = addressRepository.save(address);
@@ -56,39 +55,48 @@ public class UserServiceImpl implements UserService {
 		userModel.setPincode(address.getPincode());
 		userModel.setAddressId(address.getId());
 		userModel.setCityId(city.getId());
-		/*userModel.setDistrictId(city.getDistrict().getId());
-		userModel.setStateId(city.getDistrict().getState().getId());
-		userModel.setCountryId(city.getDistrict().getState().getCountry().getId());
-		userModel.setCityName(city.getCityName());
-		userModel.setDistrictName(city.getDistrict().getDistrictName());
-		userModel.setStateName(city.getDistrict().getState().getStateName());
-		userModel.setCountryName(city.getDistrict().getState().getCountry().getCountryName());*/
+		/*
+		 * userModel.setDistrictId(city.getDistrict().getId());
+		 * userModel.setStateId(city.getDistrict().getState().getId());
+		 * userModel.setCountryId(city.getDistrict().getState().getCountry().getId());
+		 * userModel.setCityName(city.getCityName());
+		 * userModel.setDistrictName(city.getDistrict().getDistrictName());
+		 * userModel.setStateName(city.getDistrict().getState().getStateName());
+		 * userModel.setCountryName(city.getDistrict().getState().getCountry().
+		 * getCountryName());
+		 */
 		return userModel;
 	}
-	
+
 	@Override
-	public User fetchById(Long id){
+	public User fetchById(Long id) {
 		User user = userRepository.findById(id).orElse(null);
 		return user;
 	}
-	
+
 	@Override
-	public List<UserDTO> findByCode(String code){
+	public List<UserDTO> findByCode(String code) {
 		List<UserDTO> users = userRepository.findByCode(code);
 		return users;
 	}
-	
+
 	@Override
-	public List<UserDTO> findByAllName(String name){
+	public List<UserDTO> findByAllName(String name) {
 		List<UserDTO> users = userRepository.findByAllName(name);
 		return users;
 	}
-	
+
 	@Override
-	public List<User> fetchAllUsers(){
+	public List<UserDTO> loadUserGrid(Integer id, Boolean status) {
+		List<UserDTO> users = userRepository.loadUserGrid(id, status);
+		return users;
+	}
+
+	@Override
+	public List<User> fetchAllUsers() {
 		return userRepository.findAll();
 	}
-	
+
 	@Override
 	public Optional<UserApiDTO> fetchUserDetails(String username) {
 		Optional<UserApiDTO> apiModel = userRepository.fetchUserDetails(username);
@@ -97,6 +105,5 @@ public class UserServiceImpl implements UserService {
 		apiModel.get().setRoles(rolesList);
 		return apiModel;
 	}
-	
 
 }
