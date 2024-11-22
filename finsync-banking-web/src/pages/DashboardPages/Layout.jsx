@@ -16,7 +16,7 @@ const Layout = () => {
       <div className="h-full sticky top-0 transition-all duration-500 z-50">
         <SideNav userName={userName} userRole={userRole} />
       </div>
-      <div className="w-full relative z-10 overflow-y-auto">
+      <div className="w-full relative z-10 overflow-y-auto px-6 py-4">
         <Outlet />
       </div>
     </div>
