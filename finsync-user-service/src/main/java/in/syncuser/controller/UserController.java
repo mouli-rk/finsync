@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.syncuser.dto.UserApiDTO;
+import in.syncuser.dto.UserDTO;
 import in.syncuser.entity.User;
 import in.syncuser.model.CommonModel;
 import in.syncuser.service.UserService;
@@ -41,6 +43,26 @@ public class UserController {
 	@GetMapping("/fetchAll")
 	public List<User> fetchAllUsers(){
 		return userService.fetchAllUsers();
+	}
+	
+	@GetMapping("/findByCode")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<List<UserDTO>> findByCode(@RequestParam("code") String code){
+		List<UserDTO> users = userService.findByCode(code);
+		if(users!=null && !users.isEmpty()) {
+			return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/findByAllName")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<List<UserDTO>> findByAllName(@RequestParam("name") String name){
+		List<UserDTO> users = userService.findByAllName(name);
+		if(users!=null && !users.isEmpty()) {
+			return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PostMapping("/createUser")

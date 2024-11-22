@@ -83,7 +83,7 @@ public class RoleController {
 	
 	@GetMapping("/fetchByUID")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<?> fetchByUID(@RequestParam("UID") Long userId) {
+	public ResponseEntity<?> fetchByUID(@RequestParam("UID") Integer userId) {
 		List<RoleApiDTO> roles = roleService.fetchByUID(userId);
 		if (roles != null && !roles.isEmpty())
 			return new ResponseEntity<>(roles, HttpStatus.OK);

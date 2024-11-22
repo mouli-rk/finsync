@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import in.syncuser.constants.Role;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.dto.UserApiDTO;
+import in.syncuser.dto.UserDTO;
 import in.syncuser.entity.Address;
 import in.syncuser.entity.City;
 import in.syncuser.entity.User;
@@ -69,6 +70,18 @@ public class UserServiceImpl implements UserService {
 	public User fetchById(Long id){
 		User user = userRepository.findById(id).orElse(null);
 		return user;
+	}
+	
+	@Override
+	public List<UserDTO> findByCode(String code){
+		List<UserDTO> users = userRepository.findByCode(code);
+		return users;
+	}
+	
+	@Override
+	public List<UserDTO> findByAllName(String name){
+		List<UserDTO> users = userRepository.findByAllName(name);
+		return users;
 	}
 	
 	@Override

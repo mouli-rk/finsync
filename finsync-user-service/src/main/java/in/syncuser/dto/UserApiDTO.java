@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserApiDTO {
 
-	private Long id;
+	private Integer id;
 	private String username;
 	private String password;
 	private String firstName;
@@ -24,14 +24,14 @@ public class UserApiDTO {
 	private String phoneNo;
 	private List<Role> roles;
 
-	public UserApiDTO(Long id, String username, String password) {
+	public UserApiDTO(Integer id, String username, String password) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 	}
 
-	public UserApiDTO(Long id, String username, String password, String firstName, String lastName, String email,
+	public UserApiDTO(Integer id, String username, String password, String firstName, String lastName, String email,
 			String phoneNo) {
 		super();
 		this.id = id;

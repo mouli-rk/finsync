@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommonModel extends LoginModel{
 
-	private Long id;
+	private Integer id;
 	private String code;
 	private String firstName;
 	private String lastName;
@@ -32,7 +32,7 @@ public class CommonModel extends LoginModel{
 	private String accountType;
 	private Boolean status;
 	private Long addressId;
-	private Long userId;
+	private Integer userId;
 	private String drNo;
 	private String street;
 	private String Landmark;

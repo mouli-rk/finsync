@@ -13,7 +13,7 @@ public interface RoleService {
 
 	List<GrantedAuthority> fetchAll();
 
-	List<RoleApiDTO> fetchByUID(Long id);
+	List<RoleApiDTO> fetchByUID(Integer id);
 
 	GrantedAuthority insertRole(RoleApiDTO apiModel);
 
