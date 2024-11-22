@@ -9,7 +9,7 @@ import in.syncuser.entity.Token;
 public interface TokenRepository extends JpaRepository<Token, Integer>{
 	
 	@Query("SELECT t FROM Token t WHERE t.user.id = ?1")
-	Optional<Token> fetchActiveToken(Long userId);
+	Optional<Token> fetchActiveToken(Integer userId);
 	
 	Optional<Token> findByToken(String token);
 

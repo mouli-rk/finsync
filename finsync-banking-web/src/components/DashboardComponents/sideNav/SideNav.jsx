@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
 import { FaCircleUser } from "react-icons/fa6";
 // import { FaSyncAlt } from "react-icons/fa";
-import { sideNavLinks } from "../../../data";
+import { sideNavIcons } from "../../../data";
 import styles from "./SideNav.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { BiSolidHelpCircle } from "react-icons/bi";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { logoutUser } from "../../../services/authServices";
 import { menuAccess } from "../../../services/menuAccessService";
+import { selectjwtToken } from "../../../redux/reducers/AuthSlice/authSlice";
+import { useSelector } from "react-redux";
 
 const activeLink = ({ isActive }) => {
   return isActive ? `${styles.active} ${styles.link}` : `${styles.link}`;
@@ -18,24 +20,44 @@ const activeLink = ({ isActive }) => {
 const SideNav = ({ userName, userRole }) => {
   const [show, setShow] = useState(false);
   const [menu, setMenu] = useState(null);
+  const bearer = useSelector(selectjwtToken);
+
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logoutUser();
+    const { message } = await logoutUser(bearer);
+    if (message === "SUCCESS") {
+      navigate("/");
+    }
   };
 
   useEffect(() => {
     const getMenu = async () => {
-      const menuData = await menuAccess(userRole);
-      setMenu(menuData);
+      const menuData = await menuAccess(userName, userRole, bearer);
+      const fullmenu = [
+        {
+          title: "Dashboard",
+          navlink: "/dashboard",
+          icon: sideNavIcons.Dashboard,
+        },
+      ];
+      menuData.map((nav) =>
+        fullmenu.push({
+          title: nav.module,
+          navlink: `/dashboard/${nav.module.toLowerCase()}`,
+          icon: sideNavIcons[nav.module],
+        })
+      );
+      setMenu(fullmenu);
     };
     getMenu();
-  }, [userRole]);
+  }, [userRole, userName, bearer]);
 
   return (
     <div
       className={`${
         show ? "w-[80px]" : "w-[230px]"
-      } h-full flex flex-col justify-between relative bg-gray-100 bg-opacity-35 backdrop-blur-md rounded-r-xl py-3 border-r-2 border-gray-100 transition-all duration-300`}
+      } h-full flex flex-col justify-between relative bg-gray-100 backdrop-blur-md rounded-r-xl py-3 border-r-2 border-gray-300 transition-all duration-300`}
     >
       {/* <div className="logo py-2">
         <h1 className="flex items-center gap-1 text-2xl heading_font ">
@@ -78,8 +100,8 @@ const SideNav = ({ userName, userRole }) => {
         <div className="scroll_bar overflow-y-auto px-2 flex flex-col h-[300px] mt-5">
           {menu?.map((navlink, i) => {
             return (
-              <NavLink key={i} to={`${i}#`} className={activeLink}>
-                {/* <span className="text-[25px]">{navlink.icon}</span> */}
+              <NavLink key={i} to={`${navlink.navlink}`} className={activeLink}>
+                <span className="text-[25px]">{navlink.icon}</span>
                 <div
                   className={`${
                     show
@@ -87,7 +109,7 @@ const SideNav = ({ userName, userRole }) => {
                       : "static"
                   } font-normal flex`}
                 >
-                  {navlink.module}
+                  {navlink.title}
                   {show && (
                     <div
                       className={`absolute top-1/2 -translate-y-1/2 left-0 w-7 h-7 bg-gray-500 rotate-45 -z-10`}

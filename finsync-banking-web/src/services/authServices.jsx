@@ -1,9 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const authToken = Cookies.get("Bearer")
 
 export const validEmail = (email) => {
   return email.match(
@@ -16,7 +14,8 @@ export const loginUser = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/auth/authenticate`,
-      userData, {
+      userData,
+      {
         withCredentials: true, // Required to send cookies
       }
     );
@@ -33,18 +32,17 @@ export const loginUser = async (userData) => {
   }
 };
 
-export const logoutUser = async () => {
+export const logoutUser = async (bearer) => {
   try {
-    // const response = await axios.get(`${BACKEND_URL}/logout`, {
-    //   headers: {
-    //     Authorization: `Bearer ${authToken}`,
-    //   },
-    // });
-    // if (response.status === 200) {
-    //   toast.success(response.data);
-    // }
-
-    console.log("cookie data",authToken);
+    const response = await axios.get(`${BACKEND_URL}/api/auth/logout`, {
+      headers: {
+        Authorization: `Bearer ${bearer}`,
+      },
+    });
+    if (response.data.message) {
+      toast.success(`Logout ${response.data.message}`);
+    }
+    return response.data;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||

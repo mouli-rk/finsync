@@ -102,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
 		}
 	}
 	
-	private void configureToken(Long userId, String jwtToken) {
+	private void configureToken(Integer userId, String jwtToken) {
 		Token token = tokenRepository.fetchActiveToken(userId)
 				.orElse(new Token(new User(userId)));
 		token.setToken(jwtToken);

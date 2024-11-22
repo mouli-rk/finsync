@@ -11,7 +11,7 @@ const Layout = () => {
   const userRole = useSelector(selectRole);
 
   return (
-    <div className="h-screen flex relative bg-gray-500/60">
+    <div className="h-screen flex relative ">
 
       <div className="h-full sticky top-0 transition-all duration-500 z-50">
         <SideNav userName={userName} userRole={userRole} />

@@ -28,7 +28,7 @@ public class User extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String firstName;
 	private String lastName;
 	private String gender;
@@ -41,6 +41,8 @@ public class User extends BaseEntity{
 	private String username;
 	
 	private String password;
+	
+	private Boolean status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Address address;
@@ -73,7 +75,7 @@ public class User extends BaseEntity{
 		this.fullName = this.firstName +" "+this.lastName;
 	}
 
-	public User(Long id) {
+	public User(Integer id) {
 		super();
 		this.id = id;
 	}

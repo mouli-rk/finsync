@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<RoleApiDTO> fetchByUID(Long id) {
+	public List<RoleApiDTO> fetchByUID(Integer id) {
 		return roleRepository.findByUserId(id);
 	}
 
