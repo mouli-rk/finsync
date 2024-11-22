@@ -17,7 +17,9 @@ import {
   Login,
   Register,
   Reset,
+  UserDetails,
 } from "./pages/index";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +35,7 @@ const router = createBrowserRouter(
       <Route path="reset" element={<Reset />} />
       <Route path="dashboard" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="userDetails" element={ <UserDetails />} />
       </Route>
     </Route>
   )

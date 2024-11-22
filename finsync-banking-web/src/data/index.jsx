@@ -1,16 +1,11 @@
 import { IoMdLogIn, IoMdInformationCircle } from "react-icons/io";
-import { FaUserEdit, FaUser, FaUsers } from "react-icons/fa";
-import { IoWallet } from "react-icons/io5";
+import { FaUserEdit, FaShieldAlt } from "react-icons/fa";
 import { IoMdHome } from "react-icons/io";
-import {
-  MdOutlinePhoneIphone,
-  MdSpaceDashboard,
-  MdOutlineSecurity,
-} from "react-icons/md";
-import { FaPeopleArrows, FaLink } from "react-icons/fa6";
-import { GiReceiveMoney } from "react-icons/gi";
-import { BsGraphUpArrow, BsClipboard2DataFill } from "react-icons/bs";
+import { MdOutlinePhoneIphone } from "react-icons/md";
+import { FaPeopleArrows } from "react-icons/fa6";
+import { BsBank2, BsCreditCard2BackFill } from "react-icons/bs";
 import { AiFillDashboard } from "react-icons/ai";
+import { PiPiggyBankFill } from "react-icons/pi";
 
 export const authLinks = [
   {
@@ -43,71 +38,11 @@ export const pageLinks = [
   },
 ];
 
-export const sideNavLinks = [
-  {
-    title: "Dashboard",
-    dropDown: [],
-    link: "/dashboard",
-    icon: <AiFillDashboard />,
-  },
-  {
-    title: "Users",
-    dropDown: [],
-    link: "/dashboard/users",
-    icon: <FaUser />,
-  },
-  {
-    title: "Roles",
-    dropDown: [],
-    link: "/dashboard/roles",
-    icon: <FaUsers />,
-  },
-  {
-    title: "Transactions",
-    dropDown: [],
-    link: "/dashboard/transactions",
-    icon: <FaPeopleArrows />,
-  },
-  {
-    title: "Loans",
-    dropDown: [],
-    link: "/dashboard/loans",
-    icon: <GiReceiveMoney />,
-  },
-  {
-    title: "Investments",
-    dropDown: [],
-    link: "/dashboard/investments",
-    icon: <BsGraphUpArrow />,
-  },
-  {
-    title: "Payments",
-    dropDown: [],
-    link: "/dashboard/payments",
-    icon: <IoWallet />,
-  },
-  {
-    title: "CRM",
-    dropDown: [],
-    link: "/dashboard/crm",
-    icon: <MdSpaceDashboard />,
-  },
-  {
-    title: "Reports",
-    dropDown: [],
-    link: "/dashboard/reports",
-    icon: <BsClipboard2DataFill />,
-  },
-  {
-    title: "Security",
-    dropDown: [],
-    link: "/dashboard/security ",
-    icon: <MdOutlineSecurity />,
-  },
-  {
-    title: "Integrations",
-    dropDown: [],
-    link: "/dashboard/integrations",
-    icon: <FaLink />,
-  },
-];
+export const sideNavIcons = {
+  Dashboard: <AiFillDashboard />,
+  Authentication: <FaShieldAlt />,
+  Bank: <BsBank2 />,
+  Transactions: <FaPeopleArrows />,
+  Accounts: <PiPiggyBankFill />,
+  Cards: <BsCreditCard2BackFill />,
+};

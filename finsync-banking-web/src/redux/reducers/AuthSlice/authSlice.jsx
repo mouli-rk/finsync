@@ -7,6 +7,7 @@ const initialState = {
   isLoggedIn: Cookies.get("Bearer") ? true : false,
   name: user?.username ? user?.username : "",
   role: user?.role ? user?.role : "",
+  jwtToken: user?.jwtToken ? user.jwtToken : "",
   user: {
     email: "",
     firstName: "",
@@ -24,9 +25,10 @@ const authSlice = createSlice({
     },
     SET_NAME(state, action) {
       localStorage.setItem("Fyn_User", JSON.stringify(action.payload));
-      const { username, role } = action.payload;
+      const { username, role, jwtToken } = action.payload;
       state.name = username;
       state.role = role;
+      state.jwtToken = jwtToken;
     },
     SET_USER(state, action) {
       const { email, firstName, lastName, fullName, phoneNo } = action.payload;
@@ -45,5 +47,6 @@ export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 export const selectName = (state) => state.auth.name;
 export const selectRole = (state) => state.auth.role;
 export const selectUser = (state) => state.auth.user;
+export const selectjwtToken = (state) => state.auth.jwtToken;
 
 export default authSlice.reducer;
