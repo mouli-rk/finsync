@@ -18,7 +18,7 @@ const activeLink = ({ isActive }) => {
 };
 
 const SideNav = ({ userName, userRole }) => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [menu, setMenu] = useState(null);
   const bearer = useSelector(selectjwtToken);
 
