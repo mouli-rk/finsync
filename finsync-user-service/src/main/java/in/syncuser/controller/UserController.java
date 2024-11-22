@@ -32,8 +32,8 @@ public class UserController {
 	}
 
 	@GetMapping("/fetchUserDetails")
-	public ResponseEntity<UserApiDTO> fetchUserDetails(@RequestParam("username") String apiPayLoad) {
-		UserApiDTO apiResponse = userService.fetchUserDetails(apiPayLoad).orElse(null);
+	public ResponseEntity<UserApiDTO> fetchUserDetails(@RequestParam(required = false) String username) {
+		UserApiDTO apiResponse = userService.fetchUserDetails(username).orElse(null);
 		if (apiResponse != null) {
 			return new ResponseEntity<UserApiDTO>(apiResponse, HttpStatus.OK);
 		}

@@ -31,16 +31,4 @@ public class UserApiDTO {
 		this.password = password;
 	}
 
-	public UserApiDTO(Integer id, String username, String password, String firstName, String lastName, String email,
-			String phoneNo) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phoneNo = phoneNo;
-	}
-
 }
