@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,15 +32,26 @@ public class SystemModule {
 	
 	@OneToMany(mappedBy = "systemModule", fetch = FetchType.LAZY)
 	private List<ModulePrivilege> modulePrivilege;
-
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private SystemModule parent;
+	
+	public SystemModule(Integer id) {
+		super();
+		this.id = id;
+	}
+	
 	public SystemModule(String module) {
 		super();
 		this.module = module;
 	}
 
-	public SystemModule(Integer id) {
+	public SystemModule(String module, SystemModule parent) {
 		super();
-		this.id = id;
+		this.module = module;
+		this.parent = parent;
 	}
+	
+	
 	
 }

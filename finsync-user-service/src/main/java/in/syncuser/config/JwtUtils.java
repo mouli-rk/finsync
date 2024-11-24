@@ -88,9 +88,9 @@ public class JwtUtils {
 	}
 
 	public boolean validToken(String token, UserDetails userDetails) {
-		final String userName = getUsernameFromJwt(token);
-		Boolean isActive = tokenRepository.findByToken(token).map(jwt -> jwt.getIsActive()).orElse(Boolean.FALSE);
-		return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token) && isActive);
+		final String username = getUsernameFromJwt(token);
+		Boolean isActive = tokenRepository.checkTokenActiveStatus(token).orElse(Boolean.FALSE);
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token) && isActive);
 	}
 
 	public boolean isTokenExpired(String token) {
