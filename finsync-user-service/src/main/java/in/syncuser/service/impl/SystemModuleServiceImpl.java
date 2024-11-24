@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import in.syncuser.constants.Role;
+import in.syncuser.dto.ModuleDTO;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.SystemModule;
 import in.syncuser.repository.SystemModuleRepository;
@@ -21,6 +22,13 @@ public class SystemModuleServiceImpl implements SystemModuleService {
 	@Override
 	public SystemModule insertSystemModule(String module) {
 		SystemModule sytemModule = new SystemModule(module);
+		sytemModule = systemModuleRepository.save(sytemModule);
+		return sytemModule;
+	}
+	
+	@Override
+	public SystemModule insertChildModule(String module, Integer parent) {
+		SystemModule sytemModule = new SystemModule(module, new SystemModule(parent));
 		sytemModule = systemModuleRepository.save(sytemModule);
 		return sytemModule;
 	}
@@ -45,6 +53,12 @@ public class SystemModuleServiceImpl implements SystemModuleService {
 			return dto;
 		}).collect(Collectors.toList());
 		return systemModules;
+	}
+	
+	@Override
+	public List<ModuleDTO> findChildModuleByUser(Integer user, Role role, Integer parent){
+		List<ModuleDTO> modules = systemModuleRepository.findChildModuleByUser(user, role, parent);
+		return modules;
 	}
 
 	@Override

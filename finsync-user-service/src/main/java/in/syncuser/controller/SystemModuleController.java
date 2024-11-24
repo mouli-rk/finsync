@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.syncuser.constants.FinSyncConstants;
 import in.syncuser.constants.Role;
+import in.syncuser.dto.ModuleDTO;
 import in.syncuser.dto.RoleApiDTO;
 import in.syncuser.entity.SystemModule;
 import in.syncuser.service.SystemModuleService;
@@ -31,6 +32,19 @@ public class SystemModuleController {
 	public ResponseEntity<?> insert(@RequestParam("module") String module) {
 		try {
 			SystemModule systemModule = systemModuleService.insertSystemModule(module);
+			if (systemModule != null)
+				return new ResponseEntity<SystemModule>(systemModule, HttpStatus.OK);
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(FinSyncConstants.DUPLICATE_ENTRY, HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PostMapping("/insert/child")
+	@PreAuthorize("hasAnyAuthority('ADMIN','BANK')")
+	public ResponseEntity<?> insertChildModule(@RequestParam String module, @RequestParam Integer parent) {
+		try {
+			SystemModule systemModule = systemModuleService.insertChildModule(module, parent);
 			if (systemModule != null)
 				return new ResponseEntity<SystemModule>(systemModule, HttpStatus.OK);
 			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
@@ -65,6 +79,17 @@ public class SystemModuleController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<RoleApiDTO>>(HttpStatus.METHOD_NOT_ALLOWED);
 		}
+	}
+	
+	@GetMapping("/findChildModuleByUser")
+	public ResponseEntity<List<ModuleDTO>> findChildModuleByUser(@RequestParam Integer user, @RequestParam(required = false) String role,
+			@RequestParam(required = false) Integer parent) {
+		Role roleType = Role.valueOf(role);
+		List<ModuleDTO> modules = systemModuleService.findChildModuleByUser(user, roleType, parent);
+		if(modules != null && !modules.isEmpty()) {
+			return new ResponseEntity<List<ModuleDTO>>(modules, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping("/fetchAll")
