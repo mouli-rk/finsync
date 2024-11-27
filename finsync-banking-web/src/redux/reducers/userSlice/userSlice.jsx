@@ -15,8 +15,10 @@ const userSlice = createSlice({
         : [];
     },
     SET_FILTER_USER(state, action) {
-      const { users, id } = action.payload;
-      state.filteredUser = users.filter((user) => user.id === id);
+      // console.log(action.payload);
+      state.filteredUser = action?.payload.length
+        ? action.payload.map((user) => user)
+        : [];
     },
   },
 });
